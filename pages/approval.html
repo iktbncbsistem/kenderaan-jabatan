@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kelulusan & Penjadualan | SPK IKTBN Chembong</title>
+<link rel="stylesheet" href="../css/approval.css">
+</head>
+<body>
+<header>
+<div class="brand"><span>SPK</span><div><b>SISTEM PENGURUSAN KENDERAAN JABATAN</b><small>IKTBN CHEMBONG</small></div></div>
+<div class="tools"><input id="search" placeholder="Cari permohonan, pemohon, lokasi..."><button>🔔</button><strong>MA</strong></div>
+</header>
+<nav><a>⌂ Dashboard</a><a>🚗 Kenderaan</a><a>👤 Pemandu</a><a>▣ Permohonan</a><a class="active">✓ Kelulusan</a><a>⌁ Perjalanan</a><a>⛽ Bahan Api</a><a>🔧 Penyelenggaraan</a><a>⚠ Kemalangan</a><a>▥ Laporan</a><a>⚙ Pengurusan</a></nav>
+
+<main>
+<section class="head"><div><label>APPROVAL & SCHEDULING</label><h1>Kelulusan & Penjadualan</h1><p>Semak permohonan, periksa ketersediaan dan tetapkan kenderaan serta pemandu.</p></div></section>
+
+<section class="kpis">
+<div><small>Menunggu Semakan</small><b>5</b><span>perlu tindakan</span></div>
+<div><small>Perlu Penjadualan</small><b>3</b><span>telah diluluskan</span></div>
+<div><small>Conflict</small><b id="conflictKpi">1</b><span>perlu perhatian</span></div>
+<div><small>Dijadualkan Hari Ini</small><b>3</b><span class="green">● lengkap</span></div>
+</section>
+
+<section class="panel">
+<div class="toolbar">
+<div class="tabs"><button class="tab active" data-status="">Semua</button><button class="tab" data-status="Menunggu Semakan">Menunggu Semakan</button><button class="tab" data-status="Menunggu Penjadualan">Penjadualan</button><button class="tab" data-status="Conflict">Conflict</button></div>
+<select id="typeFilter"><option value="">Semua</option><option>Tunggu</option><option>Tidak Tunggu</option></select>
+</div>
+<div class="scroll"><table><thead><tr><th>No. Permohonan</th><th>Pemohon</th><th>Tarikh / Masa</th><th>Lokasi</th><th>Pemandu</th><th>Surat Tugas</th><th>Status</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+</main>
+
+<div class="modal hidden" id="modal"><div class="modalcard">
+<div class="modalhead"><div><label>SEMAKAN PERMOHONAN</label><h2 id="modalTitle">PKJ-2026-0031</h2><p id="modalSub">Butiran permohonan</p></div><button id="close">×</button></div>
+
+<div class="detailgrid">
+<section class="detail"><h3>Butiran Pemohon</h3><div class="kv"><span>Nama</span><b id="dApplicant"></b></div><div class="kv"><span>Bahagian</span><b id="dDept"></b></div><div class="kv"><span>Telefon</span><b id="dPhone"></b></div></section>
+<section class="detail"><h3>Perjalanan</h3><div class="kv"><span>Tarikh / Masa</span><b id="dDate"></b></div><div class="kv"><span>Lokasi</span><b id="dLocation"></b></div><div class="kv"><span>Urusan</span><b id="dPurpose"></b></div></section>
+</div>
+
+<section class="check"><div class="sectiontitle"><h3>Availability Check</h3><span id="overall" class="badge greenbadge">LULUS UNTUK DIJADUALKAN</span></div>
+<div class="checks">
+<div class="checkitem"><span class="icon">🚗</span><div><b>Kenderaan</b><small id="vehicleCheck">Pilih kenderaan untuk semakan</small></div><strong id="vehicleState">—</strong></div>
+<div class="checkitem"><span class="icon">👤</span><div><b>Pemandu</b><small id="driverCheck">Pilih pemandu untuk semakan</small></div><strong id="driverState">—</strong></div>
+<div class="checkitem"><span class="icon">📎</span><div><b>Dokumen</b><small>Surat arahan tugas rasmi</small></div><strong class="ok">✓ LENGKAP</strong></div>
+<div class="checkitem"><span class="icon">🕐</span><div><b>Jadual</b><small id="scheduleCheck">Tiada pertindihan dikesan</small></div><strong id="scheduleState">✓ OK</strong></div>
+</div></section>
+
+<section class="assign"><h3>Penjadualan</h3><div class="grid">
+<label>Kenderaan<select id="vehicle"><option value="">Pilih kenderaan</option><option>VAN IKTBN 01</option><option>SEDAN IKTBN 02</option><option>BAS IKTBN 01</option><option>LORI IKTBN 01</option></select></label>
+<label>Pemandu<select id="driver"><option value="">Pilih pemandu</option><option>En. Pemandu 01</option><option>En. Pemandu 02</option><option>En. Pemandu 03</option><option>Pemandu Gantian</option></select></label>
+<label>Keperluan Pemandu<select id="need"><option>Tunggu</option><option>Tidak Tunggu</option></select></label>
+<label>Catatan Pegawai<textarea id="note" placeholder="Catatan penjadualan..."></textarea></label>
+</div></section>
+
+<div class="document">📎 <div><b>Surat Arahan Tugas Rasmi</b><small>surat_arahan_tugas_PKL_0031.pdf · <span>Lengkap</span></small></div><button>Lihat</button></div>
+
+<div class="actions"><button class="reject" id="reject">Tolak</button><button class="return" id="returnBtn">↩ Pulangkan Untuk Pembetulan</button><button class="approve" id="approve">✓ Lulus & Jadualkan</button></div>
+</div></div>
+<div id="toast"></div>
+<script src="../js/approval.js"></script>
+</body></html>
