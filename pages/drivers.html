@@ -1,82 +1,23 @@
-<!DOCTYPE html>
-<html lang="ms">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Pemandu — Sistem Pengurusan Kenderaan</title>
-<link rel="stylesheet" href="../css/global.css">
-<link rel="stylesheet" href="../css/drivers.css">
-</head>
+<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pengurusan Pemandu | SPK IKTBN Chembong</title><link rel="stylesheet" href="../css/drivers.css"></head>
 <body>
-<header class="hero-header">
-  <div class="brand"><div class="brand-mark">SPK</div><div><h1>SISTEM PENGURUSAN KENDERAAN JABATAN</h1><p>IKTBN CHEMBONG</p></div></div>
-  <div class="header-actions">
-    <div class="search-box"><span>⌕</span><input id="search" type="search" placeholder="Cari nama, jawatan, lesen..."></div>
-    <button class="icon-btn">🔔<span class="badge">3</span></button>
-    <div class="profile"><div class="avatar">MA</div><div><strong>Mohamad</strong><small>Pentadbir Sistem</small></div><span>⌄</span></div>
-  </div>
-</header>
-<nav class="top-nav">
-<a class="nav-item" href="../index.html">⌂<span>Dashboard</span></a>
-<a class="nav-item" href="vehicles.html">🚗<span>Kenderaan</span></a>
-<a class="nav-item active" href="drivers.html">👤<span>Pemandu</span></a>
-<a class="nav-item" href="requests.html">▣<span>Permohonan</span></a>
-<a class="nav-item" href="trips.html">⌁<span>Perjalanan</span></a>
-<a class="nav-item" href="fuel.html">⛽<span>Bahan Api</span></a>
-<a class="nav-item" href="maintenance.html">🔧<span>Penyelenggaraan</span></a>
-<a class="nav-item" href="insurance.html">🛡<span>Insurans & Cukai</span></a>
-<a class="nav-item" href="accidents.html">⚠<span>Kemalangan</span></a>
-<a class="nav-item" href="reports.html">▥<span>Laporan</span></a>
-<a class="nav-item" href="admin.html">⚙<span>Pengurusan</span></a>
-</nav>
-
-<main class="page">
-<section class="module-head">
-<div><p class="eyebrow">DRIVER MANAGEMENT</p><h2>Pemandu</h2><p class="muted">Urus jawatan pemandu rasmi, pemandu gantian dan pemandu agensi / luar.</p></div>
-<button class="primary-btn" id="addDriver">＋ Daftar Pemandu</button>
-</section>
-
-<section class="kpis">
-<div class="kpi"><span>Jawatan Rasmi</span><strong>4</strong><small>Dalam waran perjawatan</small></div>
-<div class="kpi green"><span>Jawatan Diisi</span><strong>3</strong><small>3 pemandu rasmi aktif</small></div>
-<div class="kpi amber"><span>Kekosongan</span><strong>1</strong><small>Jawatan belum diisi</small></div>
-<div class="kpi blue"><span>Pemandu Gantian</span><strong>4</strong><small>Surat lantikan direkod</small></div>
-<div class="kpi purple"><span>Pemandu Agensi</span><strong>12</strong><small>Rekod pemandu luar</small></div>
-</section>
-
-<section class="panel official-panel">
-<div class="section-head"><div><h3>Waran Perjawatan — Pemandu Rasmi</h3><p>Struktur jawatan dikekalkan walaupun penyandang berubah.</p></div><span class="status-info">3 / 4 diisi</span></div>
-<div class="slots">
-<div class="slot filled"><div class="slot-no">01</div><div><small>Jawatan Pemandu</small><strong>En. Ahmad bin Ali</strong><p>🟢 Penyandang aktif</p></div><span class="pill green">DIISI</span></div>
-<div class="slot filled"><div class="slot-no">02</div><div><small>Jawatan Pemandu</small><strong>En. Rahman bin Hassan</strong><p>🟢 Penyandang aktif</p></div><span class="pill green">DIISI</span></div>
-<div class="slot filled"><div class="slot-no">03</div><div><small>Jawatan Pemandu</small><strong>En. Zulkifli bin Omar</strong><p>🟢 Penyandang aktif</p></div><span class="pill green">DIISI</span></div>
-<div class="slot vacant"><div class="slot-no">04</div><div><small>Jawatan Pemandu</small><strong>Belum diisi</strong><p>Jawatan masih kosong</p></div><span class="pill amber">KOSONG</span></div>
-</div>
-</section>
-
-<section class="panel">
-<div class="section-head"><div><h3>Pemandu Berdaftar</h3><p>Profil pemandu yang boleh dipertimbangkan untuk tugasan perjalanan.</p></div>
-<div class="tabs"><button class="tab active" data-tab="all">Semua</button><button class="tab" data-tab="official">Rasmi</button><button class="tab" data-tab="alternate">Gantian</button><button class="tab" data-tab="external">Agensi / Luar</button></div></div>
-<div id="driverGrid" class="driver-grid"></div>
-</section>
+<header><div class="brand"><span>SPK</span><div><b>SISTEM PENGURUSAN KENDERAAN JABATAN</b><small>IKTBN CHEMBONG</small></div></div><div class="tools"><input id="search" placeholder="Cari nama, jawatan, lesen..."> 🔔 <strong>MA</strong></div></header>
+<nav><a>⌂ Dashboard</a><a>🚗 Kenderaan</a><a class="active">👤 Pemandu</a><a>▣ Permohonan</a><a>✓ Kelulusan</a><a>⌁ Perjalanan</a><a>📖 Log & Bahan Api</a><a>⚠ Kemalangan</a><a>▥ Laporan</a><a>⚙ Pengurusan</a></nav>
+<main>
+<section class="head"><div><label>DRIVER MANAGEMENT</label><h1>Pengurusan Pemandu</h1><p>Rekod pemandu rasmi dan pemandu gantian yang diberi kuasa oleh Pengarah.</p></div><div class="actions"><button class="secondary" id="authorityBtn">📄 Semak Lantikan</button><button class="primary" id="addBtn">＋ Daftar Pemandu</button></div></section>
+<section class="kpis"><div><small>Warant Perjawatan</small><b>4</b><span>jawatan pemandu rasmi</span></div><div><small>Diisi</small><b>3</b><span class="green">● pegawai aktif</span></div><div><small>Kekosongan</small><b>1</b><span class="orange">● belum diisi</span></div><div><small>Pemandu Gantian</small><b>2</b><span>lantikan sah</span></div></section>
+<section class="noticeTop"><div class="shield">✓</div><div><b>Kawalan Pemandu Gantian</b><p>Staf IKTBN Chembong hanya boleh diiktiraf sebagai <strong>Pemandu Gantian</strong> selepas surat lantikan rasmi daripada Pengarah dimuat naik dan disahkan.</p></div><span class="tag">WAJIB</span></section>
+<section class="tabs"><button class="tab active" data-tab="official">Pemandu Rasmi</button><button class="tab" data-tab="alternate">Pemandu Gantian</button><button class="tab" data-tab="history">Sejarah Tugasan</button></section>
+<section id="official" class="drivergrid"></section>
+<section id="alternate" class="drivergrid hidden"></section>
+<section id="history" class="panel hidden"><div class="panelhead"><div><label>DRIVER ASSIGNMENT HISTORY</label><h2>Sejarah Tugasan Pemandu</h2><p>Rekod siapa yang memandu kenderaan untuk setiap perjalanan.</p></div></div><div class="scroll"><table><thead><tr><th>Tarikh</th><th>No. Perjalanan</th><th>Pemandu</th><th>Jenis</th><th>Kenderaan</th><th>Peranan</th><th>Status</th></tr></thead><tbody id="historyRows"></tbody></table></div></section>
 </main>
 
-<div class="modal hidden" id="modal">
-<div class="modal-card">
-<div class="modal-head"><div><p class="eyebrow">DRIVER MASTER DATA</p><h3>Daftar Pemandu</h3></div><button class="close" id="close">×</button></div>
-<form id="form">
-<div class="form-grid">
-<label>Nama Penuh<input required name="name"></label>
-<label>Kategori Pemandu<select required name="type"><option>Pemandu Gantian Institut</option><option>Pemandu Agensi / Luar</option></select></label>
-<label>No. Telefon<input name="phone"></label>
-<label>No. Lesen Memandu<input name="license"></label>
-<label>Kelas Lesen<input name="class" placeholder="Contoh: D / E"></label>
-<label>Tarikh Tamat Lesen<input name="expiry" type="date"></label>
-</div>
-<div class="appointment-box"><strong>📄 Surat Lantikan Pengarah</strong><p>Wajib untuk Pemandu Gantian Institut. Fail sebenar akan disimpan dalam Supabase Storage apabila integrasi dibuat.</p><label>Nombor Surat<input name="letterNo" placeholder="Contoh: IKTBN.CHB/PP/2026/001"></label><label>Tarikh Surat<input name="letterDate" type="date"></label><label>Dokumen Surat<input name="letter" type="file" accept=".pdf,.jpg,.jpeg,.png"></label></div>
-<div class="modal-actions"><button type="button" class="secondary-btn" id="cancel">Batal</button><button class="primary-btn">Simpan Pemandu</button></div>
-</form></div></div>
-<div class="toast" id="toast"></div>
-<script src="../js/drivers.js"></script>
-</body>
-</html>
+<div class="modal hidden" id="driverModal"><div class="modalcard"><div class="modalhead"><div><label>DRIVER MASTER DATA</label><h2 id="modalTitle">Daftar Pemandu</h2><p>Maklumat asas, lesen dan status kebenaran memandu.</p></div><button id="closeDriver">×</button></div>
+<form id="driverForm"><div class="grid"><label>Nama Penuh<input required placeholder="Nama staf"></label><label>No. Staf<input required></label><label>Bahagian / Unit<input required></label><label>Status Pemandu<select><option>Pemandu Rasmi</option><option>Pemandu Gantian</option></select></label><label>No. Lesen<input required></label><label>Kelas Lesen<input placeholder="Contoh: D / E"></label><label>Tarikh Luput Lesen<input type="date"></label><label>No. Telefon<input></label><label>Status<select><option>Aktif</option><option>Tidak Aktif</option></select></label></div>
+<div class="alternateBox"><b>Jika Pemandu Gantian</b><p>Surat lantikan rasmi Pengarah adalah wajib.</p><label>Surat Lantikan Pengarah<input id="appointmentFile" type="file" accept=".pdf,.jpg,.jpeg,.png"></label><label>Tarikh Lantikan<input type="date"></label><label>Tarikh Tamat Lantikan<input type="date"></label><label>No. Rujukan Surat<input></label></div>
+<div class="notice">🔐 Sistem tidak akan membenarkan Pemandu Gantian digunakan untuk penjadualan selagi dokumen lantikan belum disahkan.</div>
+<div class="actions"><button type="button" class="secondary" id="cancelDriver">Batal</button><button class="primary">Simpan Pemandu</button></div></form></div></div>
+
+<div class="modal hidden" id="authorityModal"><div class="modalcard small"><div class="modalhead"><div><label>APPOINTMENT CONTROL</label><h2>Semakan Lantikan Pemandu Gantian</h2><p>Dokumen kuasa perlu disahkan sebelum pemandu boleh ditugaskan.</p></div><button id="closeAuthority">×</button></div><div id="authorityList"></div></div></div>
+<div id="toast"></div><script src="../js/drivers.js"></script></body></html>
