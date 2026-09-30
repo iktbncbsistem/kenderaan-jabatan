@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Pengurusan Kenderaan Jabatan</title>
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+  <header class="hero-header">
+    <div class="brand">
+      <div class="brand-mark">SPK</div>
+      <div>
+        <h1>SISTEM PENGURUSAN KENDERAAN JABATAN</h1>
+        <p>KEMENTERIAN / JABATAN KERAJAAN</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="search-box">
+        <span>⌕</span>
+        <input id="globalSearch" type="search" placeholder="Cari kenderaan, pemandu, permohonan...">
+      </div>
+      <button class="icon-btn" title="Notifikasi">🔔<span class="badge">3</span></button>
+      <div class="profile">
+        <div class="avatar">MA</div>
+        <div>
+          <strong>Mohamad</strong>
+          <small>Pentadbir Sistem</small>
+        </div>
+        <span>⌄</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="top-nav" id="topNav">
+    <a class="nav-item active" href="index.html">⌂<span>Dashboard</span></a>
+    <a class="nav-item" href="pages/vehicles.html">🚗<span>Kenderaan</span></a>
+    <a class="nav-item" href="pages/drivers.html">👤<span>Pemandu</span></a>
+    <a class="nav-item" href="pages/requests.html">▣<span>Permohonan</span></a>
+    <a class="nav-item" href="pages/trips.html">⌁<span>Perjalanan</span></a>
+    <a class="nav-item" href="pages/fuel.html">⛽<span>Bahan Api</span></a>
+    <a class="nav-item" href="pages/maintenance.html">🔧<span>Penyelenggaraan</span></a>
+    <a class="nav-item" href="pages/insurance.html">🛡<span>Insurans & Cukai</span></a>
+    <a class="nav-item" href="pages/accidents.html">⚠<span>Kemalangan</span></a>
+    <a class="nav-item" href="pages/reports.html">▥<span>Laporan</span></a>
+    <a class="nav-item" href="pages/admin.html">⚙<span>Pengurusan</span></a>
+  </nav>
+
+  <main class="page">
+    <section class="welcome">
+      <div>
+        <p class="eyebrow">RINGKASAN OPERASI</p>
+        <h2>Selamat Datang, <span>Mohamad</span></h2>
+        <p class="muted">Pantau keseluruhan operasi kenderaan jabatan dari satu paparan.</p>
+      </div>
+      <div class="date-card">
+        <strong id="todayDate">30 September 2026</strong>
+        <span id="liveTime">--:--:--</span>
+      </div>
+    </section>
+
+    <section class="kpi-grid" id="kpiGrid"></section>
+
+    <section class="dashboard-grid">
+      <article class="panel chart-panel">
+        <div class="panel-head">
+          <div><h3>Penggunaan Kenderaan</h3><p>Top 5 berdasarkan jarak perjalanan bulan ini</p></div>
+          <select id="periodSelect"><option>Bulan Ini</option><option>Bulan Lepas</option><option>Tahun 2026</option></select>
+        </div>
+        <div class="bar-chart" id="vehicleChart"></div>
+      </article>
+
+      <article class="panel status-panel">
+        <div class="panel-head"><div><h3>Status Kenderaan</h3><p>Kedudukan fleet semasa</p></div></div>
+        <div class="donut-wrap">
+          <div class="donut"><div><strong>124</strong><span>Jumlah</span></div></div>
+          <div class="legend">
+            <div><i class="dot green"></i><span>Aktif</span><b>112</b></div>
+            <div><i class="dot amber"></i><span>Tidak Aktif</span><b>6</b></div>
+            <div><i class="dot red"></i><span>Dalam Penyelenggaraan</span><b>4</b></div>
+            <div><i class="dot grey"></i><span>Dilupuskan</span><b>2</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <div class="panel-head"><div><h3>Kos Operasi Kenderaan</h3><p>Trend bulanan 2026</p></div></div>
+        <div class="line-chart">
+          <svg viewBox="0 0 800 230" preserveAspectRatio="none" aria-label="Trend kos operasi">
+            <path class="area" d="M0,190 L70,170 L140,145 L210,155 L280,150 L350,135 L420,110 L490,125 L560,105 L630,90 L700,65 L800,55 L800,230 L0,230 Z"/>
+            <polyline points="0,190 70,170 140,145 210,155 280,150 350,135 420,110 490,125 560,105 630,90 700,65 800,55"/>
+          </svg>
+          <div class="months"><span>Jan</span><span>Feb</span><span>Mac</span><span>Apr</span><span>Mei</span><span>Jun</span><span>Jul</span><span>Ogo</span><span>Sep</span><span>Okt</span><span>Nov</span><span>Dis</span></div>
+        </div>
+        <div class="chart-legend"><span>● Bahan Api</span><span>● Penyelenggaraan</span><span>● Insurans & Cukai</span><span>● Tenaga EV</span></div>
+      </article>
+
+      <article class="panel table-panel">
+        <div class="panel-head"><div><h3>Permohonan Kenderaan Terkini</h3><p>Aktiviti permohonan semasa</p></div><a href="pages/requests.html">Lihat semua →</a></div>
+        <div class="table-scroll"><table><thead><tr><th>Tarikh</th><th>Pemohon</th><th>Lokasi</th><th>Keputusan</th><th>Status</th></tr></thead><tbody id="requestTable"></tbody></table></div>
+      </article>
+
+      <article class="panel table-panel">
+        <div class="panel-head"><div><h3>Penyelenggaraan Akan Datang</h3><p>Jadual yang perlu diberi perhatian</p></div><a href="pages/maintenance.html">Lihat semua →</a></div>
+        <div class="table-scroll"><table><thead><tr><th>Tarikh</th><th>Kenderaan</th><th>Perkara</th><th>Status</th></tr></thead><tbody id="maintenanceTable"></tbody></table></div>
+      </article>
+
+      <article class="panel table-panel">
+        <div class="panel-head"><div><h3>Insurans / Cukai Tamat Tempoh</h3><p>Dokumen yang hampir tamat atau telah tamat</p></div><a href="pages/insurance.html">Lihat semua →</a></div>
+        <div class="table-scroll"><table><thead><tr><th>Kenderaan</th><th>Jenis</th><th>Tarikh Tamat</th><th>Status</th></tr></thead><tbody id="expiryTable"></tbody></table></div>
+      </article>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="js/app.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
 
