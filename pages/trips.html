@@ -1,6 +1,72 @@
-<!DOCTYPE html>
-<html lang="ms"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Perjalanan — Sistem Pengurusan Kenderaan</title><link rel="stylesheet" href="../css/global.css"></head>
-<body><header class="hero-header"><div class="brand"><div class="brand-mark">SPK</div><div><h1>SISTEM PENGURUSAN KENDERAAN JABATAN</h1><p>KEMENTERIAN / JABATAN KERAJAAN</p></div></div><div class="profile"><div class="avatar">MA</div><div><strong>Mohamad</strong><small>Pentadbir Sistem</small></div></div></header>
-<nav class="top-nav"><a class="nav-item" href="../index.html">⌂<span>Dashboard</span></a><a class="nav-item active" href="#">Perjalanan<span>Perjalanan</span></a></nav>
-<main class="page"><section class="panel"><p class="eyebrow">MODUL</p><h2>Perjalanan</h2><p class="muted">Halaman modul ini akan dibangunkan pada fasa seterusnya menggunakan workflow sistem yang telah dipersetujui.</p></section></main></body></html>
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perjalanan | Sistem Pengurusan Kenderaan</title>
+<link rel="stylesheet" href="../css/trips.css">
+</head>
+<body>
+<header>
+  <div class="brand"><span>SPK</span><div><b>SISTEM PENGURUSAN KENDERAAN JABATAN</b><small>IKTBN CHEMBONG</small></div></div>
+  <div class="toptools"><input id="search" placeholder="Cari lokasi, pemohon, pemandu..."><button>🔔</button><strong>MA</strong></div>
+</header>
+<nav>
+<a>⌂ Dashboard</a><a>🚗 Kenderaan</a><a>👤 Pemandu</a><a>▣ Permohonan</a><a class="active">⌁ Perjalanan</a><a>⛽ Bahan Api</a><a>🔧 Penyelenggaraan</a><a>🛡 Insurans & Cukai</a><a>⚠ Kemalangan</a><a>▥ Laporan</a><a>⚙ Pengurusan</a>
+</nav>
+<main>
+<section class="head">
+<div><label>TRIP OPERATIONS</label><h1>Perjalanan</h1><p>Pusat kawalan perjalanan, pemandu, kenderaan dan masa operasi.</p></div>
+<div class="actions"><button class="secondary" id="driverView">👤 Mengikut Pemandu</button><button class="primary" id="newTrip">＋ Rekod Perjalanan</button></div>
+</section>
+
+<section class="kpis">
+<div><small>Hari Ini</small><b>3</b><span>perjalanan dijadualkan</span></div>
+<div><small>Sedang Berjalan</small><b>1</b><span class="green">● operasi aktif</span></div>
+<div><small>Akan Datang</small><b>8</b><span>7 hari seterusnya</span></div>
+<div><small>Selesai Bulan Ini</small><b>42</b><span>rekod lengkap</span></div>
+</section>
+
+<section class="control">
+<div class="tabs"><button class="tab active" data-tab="">Semua</button><button class="tab" data-tab="Dijadualkan">Dijadualkan</button><button class="tab" data-tab="Bertolak">Bertolak</button><button class="tab" data-tab="Dalam Perjalanan">Dalam Perjalanan</button><button class="tab" data-tab="Selesai">Selesai</button></div>
+<div class="filters"><input id="dateFilter" type="date"><select id="driverFilter"><option value="">Semua Pemandu</option><option>En. Pemandu 01</option><option>En. Pemandu 02</option><option>En. Pemandu 03</option><option>Pemandu Gantian</option></select><select id="vehicleFilter"><option value="">Semua Kenderaan</option><option>VAN IKTBN 01</option><option>SEDAN IKTBN 02</option><option>BAS IKTBN 01</option><option>LORI IKTBN 01</option></select></div>
+</section>
+
+<section class="panel">
+<div class="panelhead"><div><h2>Jadual Perjalanan</h2><p>Masa dirancang dan masa sebenar direkod secara berasingan.</p></div><div class="legend"><span>🟢 Selesai</span><span>🔵 Akan Datang</span><span>🟠 Aktif</span></div></div>
+<div class="scroll"><table><thead><tr><th>Tarikh</th><th>Masa Bertolak</th><th>Masa Balik</th><th>Lokasi</th><th>Pemohon</th><th>Kenderaan</th><th>Pemandu</th><th>Keperluan</th><th>Status</th><th></th></tr></thead><tbody id="rows"></tbody></table></div>
+</section>
+
+<section class="panel driver-panel hidden" id="driverPanel">
+<div class="panelhead"><div><label>DRIVER SCHEDULE</label><h2>Paparan Mengikut Pemandu</h2><p>Gunakan paparan ini untuk melihat beban tugasan dan ruang masa pemandu.</p></div><button class="secondary" id="closeDriver">Tutup</button></div>
+<div id="driverCards" class="driver-cards"></div>
+</section>
+</main>
+
+<div class="modal hidden" id="modal"><div class="modalcard">
+<div class="panelhead"><div><label>TRIP RECORD</label><h2>Rekod Perjalanan</h2><p>Digunakan untuk melengkapkan rekod operasi sebenar.</p></div><button id="close">×</button></div>
+<form id="form">
+<fieldset><legend>Maklumat Perjalanan</legend><div class="grid">
+<label>No. Permohonan<input value="PKJ-2026-0032" readonly></label>
+<label>Tarikh<input name="date" id="tripDate" type="date" required></label>
+<label>Lokasi<input name="location" required placeholder="Contoh: Kuala Lumpur"></label>
+<label>Lokasi Bertolak<input name="origin" required placeholder="IKTBN Chembong"></label>
+<label>Pemohon<input name="applicant" required></label>
+<label>Bil. Penumpang<input name="passengers" type="number" min="1" required></label>
+</div></fieldset>
+<fieldset><legend>Masa Operasi</legend><div class="grid">
+<label>Masa Bertolak — Dirancang<input type="time" name="plannedOut" required></label>
+<label>Masa Bertolak — Sebenar<input type="time" name="actualOut"></label>
+<label>Masa Balik — Dirancang<input type="time" name="plannedBack"></label>
+<label>Masa Balik — Sebenar<input type="time" name="actualBack"></label>
+</div></fieldset>
+<fieldset><legend>Kenderaan & Pemandu</legend><div class="grid">
+<label>Kenderaan<select required><option value="">Pilih</option><option>VAN IKTBN 01</option><option>SEDAN IKTBN 02</option><option>BAS IKTBN 01</option><option>LORI IKTBN 01</option></select></label>
+<label>Pemandu<select required><option value="">Pilih</option><option>En. Pemandu 01</option><option>En. Pemandu 02</option><option>En. Pemandu 03</option><option>Pemandu Gantian</option></select></label>
+<label>Keperluan Pemandu<select required><option>Tunggu</option><option>Tidak Tunggu</option></select></label>
+</div></fieldset>
+<div class="notice">ℹ️ <b>Prinsip rekod:</b> masa dirancang tidak diubah apabila masa sebenar dimasukkan. Perbezaan antara kedua-duanya boleh digunakan dalam laporan operasi.</div>
+<div class="actions"><button type="button" class="secondary" id="cancel">Batal</button><button class="primary" type="submit">Simpan Rekod</button></div>
+</form></div></div>
+<div id="toast"></div>
+<script src="../js/trips.js"></script>
+</body></html>
