@@ -1,0 +1,28 @@
+<!doctype html><html lang="ms"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard & Laporan | SPK IKTBN Chembong</title><link rel="stylesheet" href="../css/dashboard-reports.css"></head>
+<body>
+<header><div class="brand"><span>SPK</span><div><b>SISTEM PENGURUSAN KENDERAAN JABATAN</b><small>IKTBN CHEMBONG</small></div></div><div class="tools"><input id="search" placeholder="Cari laporan..."> 🔔 <strong>MA</strong></div></header>
+<nav><a class="active">⌂ Dashboard</a><a>🚗 Kenderaan</a><a>👤 Pemandu</a><a>▣ Permohonan</a><a>✓ Kelulusan</a><a>⌁ Perjalanan</a><a>📖 Log & Bahan Api</a><a>⚠ Kemalangan</a><a>▥ Laporan</a><a>⚙ Pengurusan</a></nav>
+<main>
+<section class="head"><div><label>MANAGEMENT DASHBOARD</label><h1>Dashboard Pengurusan Kenderaan</h1><p>Ringkasan operasi, penggunaan aset, kos dan tindakan pengurusan.</p></div><div class="actions"><select id="period"><option>September 2026</option><option>Ogos 2026</option><option>Julai 2026</option><option>Tahun 2026</option></select><button class="primary" id="reportBtn">▣ Jana Laporan</button></div></section>
+<section class="kpis">
+<div><small>Perjalanan</small><b>126</b><span class="blue">↑ 12.4% berbanding bulan lalu</span></div>
+<div><small>Jumlah Kilometer</small><b>18,742 <i>km</i></b><span>purata 149 km / perjalanan</span></div>
+<div><small>Penggunaan Bahan Api</small><b>2,486 <i>Liter</i></b><span>petrol + diesel</span></div>
+<div><small>Kos Operasi</small><b>RM 8,426</b><span>minyak + servis + lain-lain</span></div>
+</section>
+<section class="grid2">
+<div class="panel"><div class="panelhead"><div><label>FLEET UTILISATION</label><h2>Penggunaan Kenderaan</h2><p>Perjalanan dan jarak mengikut aset.</p></div><button class="link" onclick="toast('Laporan penggunaan dibuka')">Lihat Semua →</button></div><div id="fleetChart" class="bars"></div></div>
+<div class="panel"><div class="panelhead"><div><label>TRIP STATUS</label><h2>Status Perjalanan</h2><p>Ringkasan permohonan dan perjalanan.</p></div></div><div class="donut"><div class="circle"><b>126</b><small>Trip</small></div><div class="legend"><span><i class="g"></i>Selesai <b>98</b></span><span><i class="b"></i>Dijadualkan <b>18</b></span><span><i class="o"></i>Menunggu <b>7</b></span><span><i class="r"></i>Dibatalkan <b>3</b></span></div></div></div>
+</section>
+<section class="grid3">
+<div class="panel"><div class="panelhead"><div><label>FUEL MANAGEMENT</label><h2>Bahan Api</h2></div></div><div class="metric"><b>2,486 L</b><span>Jumlah penggunaan</span></div><div class="row"><span>Diesel</span><b>1,642 L</b></div><div class="row"><span>Petrol</span><b>844 L</b></div><div class="row"><span>Transaksi kad minyak</span><b>74</b></div></div>
+<div class="panel"><div class="panelhead"><div><label>EV MANAGEMENT</label><h2>Kenderaan EV</h2></div></div><div class="metric"><b>1,286 kWh</b><span>Tenaga pengecasan</span></div><div class="row"><span>Perjalanan EV</span><b>19</b></div><div class="row"><span>Jarak EV</span><b>1,824 km</b></div><div class="row"><span>Purata</span><b>14.1 kWh/100km</b></div></div>
+<div class="panel"><div class="panelhead"><div><label>MAINTENANCE</label><h2>Penyelenggaraan</h2></div></div><div class="metric"><b>RM 3,840</b><span>Kos bulan semasa</span></div><div class="row"><span>Servis selesai</span><b>8</b></div><div class="row"><span>Servis akan datang</span><b class="warn">2</b></div><div class="row"><span>Dalam penyelenggaraan</span><b class="danger">1</b></div></div>
+</section>
+<section class="grid2">
+<div class="panel"><div class="panelhead"><div><label>DRIVER ACTIVITY</label><h2>Aktiviti Pemandu</h2><p>Jumlah perjalanan mengikut pemandu.</p></div></div><div class="driverrows" id="drivers"></div></div>
+<div class="panel"><div class="panelhead"><div><label>INCIDENTS</label><h2>Insiden & Tindakan</h2><p>Kes yang memerlukan perhatian.</p></div><button class="link" onclick="toast('Paparan insiden dibuka')">Lihat →</button></div><div class="incident"><span class="badge red">1</span><div><b>Kerosakan EV IKTBN 01</b><small>22/09/2026 · Sederhana</small></div><strong>Terbuka</strong></div><div class="incident"><span class="badge purple">1</span><div><b>Kemalangan BAS IKTBN 01</b><small>19/06/2026 · Tinggi</small></div><strong>Dalam Siasatan</strong></div></div>
+</section>
+<section class="panel reportpanel"><div class="panelhead"><div><label>MANAGEMENT REPORT CENTRE</label><h2>Pusat Laporan</h2><p>Pilih laporan untuk paparan, cetakan atau eksport.</p></div></div><div class="reports" id="reports"></div></section>
+</main><div class="modal hidden" id="modal"><div class="modalcard"><div class="modalhead"><div><label>REPORT GENERATOR</label><h2>Jana Laporan Pengurusan</h2><p>Tetapkan tempoh dan jenis laporan.</p></div><button id="close">×</button></div><div class="formgrid"><label>Tempoh<select id="reportPeriod"><option>September 2026</option><option>Ogos 2026</option><option>Julai 2026</option><option>Januari - September 2026</option></select></label><label>Jenis Laporan<select id="reportType"><option>Ringkasan Pengurusan</option><option>Penggunaan Kenderaan</option><option>Perjalanan & Kilometer</option><option>Bahan Api & Kad Minyak</option><option>EV & Pengecasan</option><option>Penyelenggaraan & Kos</option><option>Pemandu</option><option>Kemalangan & Insiden</option></select></label></div><div class="export"><button class="secondary" onclick="toast('Paparan laporan disediakan')">Preview</button><button class="secondary" onclick="toast('PDF sedang disediakan')">Export PDF</button><button class="primary" onclick="toast('Excel sedang disediakan')">Export Excel</button></div></div></div><div id="toast"></div><script src="../js/dashboard-reports.js"></script></body></html>
