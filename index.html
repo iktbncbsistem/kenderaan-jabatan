@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SPK IKTBN Chembong</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><div class="logo">🚗</div><div><b>SPK</b><small>PENGURUSAN KENDERAAN</small></div></div>
+  <nav>
+    <button class="nav active" data-view="request">Permohonan</button>
+    <button class="nav" data-view="review">Semakan</button>
+    <button class="nav" data-view="assignment">Assignment</button>
+  </nav>
+  <div class="user">PK · Pegawai Kenderaan</div>
+</header>
+
+<main>
+<section id="request" class="view active">
+  <div class="heading"><div><small>MODUL PEMOHON</small><h1>Permohonan Perjalanan</h1><p>Mohon penggunaan kenderaan jabatan.</p></div><span class="pill">DRAFT</span></div>
+  <form id="requestForm">
+    <article class="card"><h2>01 · Maklumat Pemohon</h2><div class="grid three">
+      <label>Nama<input name="name" value="Ahmad Bin Ali" required></label>
+      <label>No. Staf / Matrik<input name="staff" value="IKTBN-0241" required></label>
+      <label>Unit / Jabatan<input name="unit" value="Unit Kejuruteraan" required></label>
+    </div></article>
+    <article class="card"><h2>02 · Maklumat Perjalanan</h2><div class="grid two">
+      <label>Tujuan<input name="purpose" value="Urusan rasmi jabatan" required></label>
+      <label>Lokasi / Destinasi<input name="location" value="Kuala Lumpur" required></label>
+      <label>Tarikh Bertolak<input type="date" name="date" value="2026-10-02" required></label>
+      <label>Masa Bertolak<input type="time" name="depart" value="08:00" required></label>
+      <label>Tarikh Balik<input type="date" name="returnDate" value="2026-10-02" required></label>
+      <label>Masa Balik<input type="time" name="returnTime" value="17:00" required></label>
+      <label>Bilangan Penumpang<input type="number" name="passengers" value="12" min="1" required></label>
+    </div></article>
+    <article class="card"><h2>03 · Keperluan Pemandu</h2><div class="choices">
+      <label><input type="radio" name="waiting" value="with" checked><b>🚗 Pemandu Tunggu</b><small>Pemandu menunggu sepanjang urusan.</small></label>
+      <label><input type="radio" name="waiting" value="without"><b>🚘 Tanpa Pemandu Tunggu</b><small>Pemandu menghantar sahaja.</small></label>
+    </div></article>
+    <article class="card"><h2>04 · Dokumen Sokongan</h2>
+      <label class="upload"><input id="letter" type="file" accept=".pdf,.jpg,.jpeg,.png"><b>📎 Surat Arahan Tugas Rasmi</b><small id="fileText">PDF / JPG / PNG · Maksimum 10MB</small></label>
+    </article>
+    <div class="actions"><button type="submit" class="primary">Semak Permohonan →</button></div>
+  </form>
+</section>
+
+<section id="review" class="view">
+  <div class="heading"><div><small>PEGAWAI KENDERAAN</small><h1>Semakan Permohonan</h1><p>Permohonan yang memerlukan tindakan.</p></div><span class="counter">12 <small>menunggu</small></span></div>
+  <div class="filters"><input id="search" placeholder="Cari permohonan, nama atau lokasi..."><select id="filter"><option>Semua</option><option>Menunggu</option><option>Diluluskan</option></select></div>
+  <div id="requestList"></div>
+</section>
+
+<section id="assignment" class="view">
+  <div class="heading"><div><small>ASSIGNMENT</small><h1>Kenderaan & Pemandu</h1><p>Pemilihan dibuat oleh Pegawai Kenderaan.</p></div><span class="pill green">READY</span></div>
+  <article class="card">
+    <h2>01 · Maklumat Perjalanan <span class="ref">PR-2026-001</span></h2>
+    <div class="details"><div><small>Pemohon</small><b>Ahmad Bin Ali</b></div><div><small>Lokasi</small><b>Kuala Lumpur</b></div><div><small>Tarikh</small><b>02 Okt 2026</b></div><div><small>Masa</small><b>08:00 — 17:00</b></div><div><small>Penumpang</small><b>12</b></div><div><small>Keperluan</small><b>Pemandu Tunggu</b></div></div>
+  </article>
+  <article class="card"><h2>02 · Pilih Kenderaan</h2><p class="hint">Kenderaan unavailable tidak boleh dipilih.</p><div id="vehicles" class="cards"></div></article>
+  <article class="card"><h2>03 · Pilih Pemandu</h2><p class="hint">Sistem semak availability, lesen dan lantikan pemandu gantian.</p><div id="drivers" class="cards"></div></article>
+  <article class="card"><h2>04 · Confirmation</h2><div class="confirm"><div><small>Kenderaan</small><b id="sv">Belum dipilih</b></div><div><small>Pemandu</small><b id="sd">Belum dipilih</b></div></div><button id="confirm" class="primary wide" disabled>✓ Confirm & Schedule</button></article>
+</section>
+</main>
+<div id="toast"></div>
+<script src="js/app.js"></script>
+</body>
+</html>
