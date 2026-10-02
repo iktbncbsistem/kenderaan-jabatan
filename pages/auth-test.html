@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SPK IKTBN Chembong - Auth Test</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+    <h1>SPK Authentication Test</h1>
+
+    <input
+        id="email"
+        type="email"
+        placeholder="Email"
+    >
+
+    <input
+        id="password"
+        type="password"
+        placeholder="Password"
+    >
+
+    <button id="loginBtn">
+        Login
+    </button>
+
+    <hr>
+
+    <pre id="output">Waiting...</pre>
+
+    <script>
+        const SUPABASE_URL = "https://oonlogvseziuklrdbfwv.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_rp2hRDbVkFpNV_ERaZENAQ_50gRQk3_";
+
+        const client = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_ANON_KEY
+        );
+
+        const output = document.getElementById("output");
+
+        document
+            .getElementById("loginBtn")
+            .addEventListener("click", async () => {
+
+                const email =
+                    document.getElementById("email").value.trim();
+
+                const password =
+                    document.getElementById("password").value;
+
+                output.textContent = "Logging in...";
+
+                const { data, error } =
+                    await client.auth.signInWithPassword({
+                        email,
+                        password
+                    });
+
+                if (error) {
+                    output.textContent =
+                        "LOGIN ERROR\n\n" + error.message;
+
+                    return;
+                }
+
+                const user = data.user;
+
+                const {
+                    data: profile,
+                    error: profileError
+                } = await client
+                    .from("profiles")
+                    .select(`
+                        id,
+                        full_name,
+                        email,
+                        role,
+                        is_active
+                    `)
+                    .eq("id", user.id)
+                    .single();
+
+                if (profileError) {
+                    output.textContent =
+                        "LOGIN SUCCESS\n\n" +
+                        "Auth User ID: " + user.id +
+                        "\n\n" +
+                        "PROFILE ERROR:\n" +
+                        profileError.message;
+
+                    return;
+                }
+
+                output.textContent =
+                    "LOGIN SUCCESS ✅\n\n" +
+                    "User ID: " + user.id +
+                    "\nEmail: " + profile.email +
+                    "\nName: " + profile.full_name +
+                    "\nRole: " + profile.role +
+                    "\nActive: " + profile.is_active;
+            });
+    </script>
+
+</body>
+</html>
