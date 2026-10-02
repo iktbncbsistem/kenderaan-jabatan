@@ -3,376 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sign In | VMS IKTBN Chembong</title>
+  <title>VMS | Log Masuk</title>
   <meta name="description" content="VMS - Sistem Pengurusan Kenderaan Jabatan IKTBN Chembong" />
   <style>
-    :root{
-      --navy:#0f1b33;
-      --navy-2:#162642;
-      --ink:#13213a;
-      --muted:#71809a;
-      --line:#dfe6ef;
-      --panel:#ffffff;
-      --bg:#eef3f8;
-      --accent:#18a66b;
-      --accent-2:#0c8755;
-      --danger:#c53b3b;
-      --shadow:0 24px 60px rgba(15,27,51,.14);
-      --radius:24px;
-    }
-
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    body{
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(24,166,107,.10), transparent 28%),
-        radial-gradient(circle at 90% 90%, rgba(15,27,51,.10), transparent 28%),
-        linear-gradient(135deg,#f7f9fc 0%,var(--bg) 100%);
-      color:var(--ink);
-      padding:24px;
-    }
-
-    .shell{
-      width:min(1080px,100%);
-      display:grid;
-      grid-template-columns:1.05fr .95fr;
-      background:var(--panel);
-      border:1px solid rgba(255,255,255,.8);
-      border-radius:var(--radius);
-      overflow:hidden;
-      box-shadow:var(--shadow);
-    }
-
-    .brand-panel{
-      position:relative;
-      padding:56px;
-      color:#fff;
-      background:
-        linear-gradient(145deg,rgba(15,27,51,.97),rgba(22,38,66,.96)),
-        radial-gradient(circle at 20% 20%,rgba(24,166,107,.28),transparent 35%);
-      min-height:640px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-    }
-
-    .brand-panel::after{
-      content:"";
-      position:absolute;
-      width:300px;height:300px;
-      right:-130px;bottom:-130px;
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:50%;
-      box-shadow:0 0 0 42px rgba(255,255,255,.025),0 0 0 84px rgba(255,255,255,.02);
-    }
-
-    .brand-top,.brand-copy,.brand-footer{position:relative;z-index:1}
-    .brand-mark{
-      width:64px;height:64px;border-radius:18px;
-      display:grid;place-items:center;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.14);
-      font-size:30px;
-      margin-bottom:22px;
-    }
-
-    .eyebrow{
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:#9fb2cc;
-      margin:0 0 14px;
-    }
-
-    h1{
-      margin:0;
-      font-size:clamp(34px,4vw,52px);
-      line-height:1.04;
-      letter-spacing:-.03em;
-    }
-
-    .lead{
-      margin:20px 0 0;
-      max-width:460px;
-      color:#c3cede;
-      font-size:16px;
-      line-height:1.7;
-    }
-
-    .brand-footer{
-      color:#9fb2cc;
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    .login-panel{
-      padding:56px;
-      display:flex;
-      align-items:center;
-    }
-
-    .login-card{width:100%;max-width:430px;margin:auto}
-    .login-title{
-      font-size:30px;
-      line-height:1.1;
-      letter-spacing:-.02em;
-      margin:0;
-      color:var(--ink);
-    }
-
-    .login-sub{
-      margin:10px 0 30px;
-      color:var(--muted);
-      line-height:1.6;
-    }
-
-    .field{margin-bottom:18px}
-    .field label{
-      display:block;
-      font-size:13px;
-      font-weight:800;
-      margin-bottom:8px;
-      color:#34435d;
-    }
-
-    .input-wrap{position:relative}
-    input{
-      width:100%;
-      height:52px;
-      padding:0 16px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      outline:none;
-      font:inherit;
-      color:var(--ink);
-      background:#fbfcfe;
-      transition:.2s ease;
-    }
-
-    input:focus{
-      border-color:#8bcfb0;
-      background:#fff;
-      box-shadow:0 0 0 4px rgba(24,166,107,.10);
-    }
-
-    .toggle-password{
-      position:absolute;
-      top:50%;right:10px;
-      transform:translateY(-50%);
-      height:34px;width:40px;
-      border:0;background:transparent;
-      color:#738198;cursor:pointer;
-      border-radius:10px;
-    }
-
-    .toggle-password:hover{background:#eef3f8}
-    .submit-btn{
-      width:100%;
-      height:54px;
-      border:0;
-      border-radius:14px;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      color:#fff;
-      font:inherit;
-      font-weight:800;
-      letter-spacing:.01em;
-      cursor:pointer;
-      box-shadow:0 12px 26px rgba(24,166,107,.22);
-      transition:.2s ease;
-    }
-
-    .submit-btn:hover{transform:translateY(-1px)}
-    .submit-btn:disabled{opacity:.7;cursor:wait;transform:none}
-
-    .message{
-      display:none;
-      margin:0 0 18px;
-      padding:12px 14px;
-      border-radius:12px;
-      font-size:14px;
-      line-height:1.5;
-    }
-    .message.show{display:block}
-    .message.error{background:#fff0f0;color:var(--danger);border:1px solid #f3d4d4}
-    .message.info{background:#eef6ff;color:#23598f;border:1px solid #d8e8fa}
-    .message.success{background:#edf9f3;color:#136d48;border:1px solid #cfeedd}
-
-    .security-note{
-      margin-top:20px;
-      color:#8a96a8;
-      font-size:12px;
-      line-height:1.5;
-      text-align:center;
-    }
-
-    @media (max-width: 820px){
-      .shell{grid-template-columns:1fr}
-      .brand-panel{min-height:280px;padding:34px}
-      .brand-footer{margin-top:32px}
-      .login-panel{padding:34px}
-      .lead{max-width:none}
-    }
-
-    @media (max-width: 520px){
-      body{padding:0}
-      .shell{border-radius:0;min-height:100vh;border:0}
-      .brand-panel{padding:28px;min-height:250px}
-      .login-panel{padding:28px 22px}
-      h1{font-size:38px}
-    }
+    :root{--navy:#0f1b33;--navy2:#172947;--ink:#13213a;--muted:#71809a;--line:#dfe6ef;--bg:#eef3f8;--green:#18a66b;--green2:#0c8755;--danger:#c53b3b;--shadow:0 30px 80px rgba(15,27,51,.16)}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink)}
+    body{min-height:100vh;display:grid;place-items:center;padding:24px;background:radial-gradient(circle at 8% 12%,rgba(24,166,107,.12),transparent 28%),radial-gradient(circle at 92% 88%,rgba(15,27,51,.12),transparent 28%),linear-gradient(135deg,#f8fafc,var(--bg))}
+    .shell{width:min(1120px,100%);display:grid;grid-template-columns:1.03fr .97fr;background:#fff;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.9)}
+    .brand{min-height:720px;padding:56px;color:#fff;position:relative;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,rgba(15,27,51,.98),rgba(23,41,71,.97))}
+    .brand:after{content:"";position:absolute;width:390px;height:390px;right:-185px;bottom:-185px;border:1px solid rgba(255,255,255,.08);border-radius:50%;box-shadow:0 0 0 55px rgba(255,255,255,.025),0 0 0 110px rgba(255,255,255,.018)}
+    .brand>*{position:relative;z-index:1}.mark{width:68px;height:68px;border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font-size:31px;margin-bottom:24px}
+    .eyebrow{font-size:11px;font-weight:900;letter-spacing:.18em;text-transform:uppercase;color:#9fb2cc;margin:0 0 14px}.brand h1{font-size:58px;line-height:1;margin:0;letter-spacing:-.04em}.lead{max-width:470px;margin:20px 0 0;color:#c6d1df;font-size:16px;line-height:1.7}.brand-footer{font-size:13px;line-height:1.6;color:#9fb2cc;max-width:450px}
+    .panel{padding:54px 58px;display:flex;align-items:center}.card{width:100%;max-width:440px;margin:auto}.title{font-size:31px;letter-spacing:-.025em;margin:0}.sub{margin:9px 0 26px;color:var(--muted);line-height:1.55}
+    .switch{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;border-radius:14px;padding:4px;margin-bottom:24px}.switch button{height:43px;border:0;background:transparent;border-radius:11px;font-weight:850;color:#71809a;cursor:pointer}.switch button.active{background:#fff;color:var(--navy);box-shadow:0 3px 12px rgba(15,27,51,.08)}
+    .form{display:none}.form.active{display:block}.field{margin-bottom:16px}.field label{display:block;font-size:13px;font-weight:800;color:#34435d;margin-bottom:7px}.input-wrap{position:relative}input{width:100%;height:52px;padding:0 15px;border:1px solid var(--line);border-radius:13px;outline:0;font:inherit;color:var(--ink);background:#fbfcfe}input:focus{border-color:#8bcfb0;background:#fff;box-shadow:0 0 0 4px rgba(24,166,107,.1)}
+    .eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);height:36px;width:40px;border:0;background:transparent;border-radius:10px;cursor:pointer;color:#71809a}.eye:hover{background:#eef3f8}.row{display:flex;justify-content:flex-end;margin:-4px 0 15px}.link{border:0;background:none;padding:0;color:#08784c;font-weight:800;cursor:pointer;font:inherit;font-size:13px}.primary{width:100%;height:53px;border:0;border-radius:13px;background:linear-gradient(135deg,var(--green),var(--green2));color:#fff;font:inherit;font-weight:850;cursor:pointer;box-shadow:0 12px 25px rgba(24,166,107,.22)}.primary:disabled{opacity:.7;cursor:wait}
+    .divider{display:flex;align-items:center;gap:12px;color:#9aa6b7;font-size:12px;font-weight:700;margin:21px 0}.divider:before,.divider:after{content:"";height:1px;background:#e5eaf0;flex:1}.google{width:100%;height:52px;border:1px solid #d9e0e9;border-radius:13px;background:#fff;color:#25344d;font:inherit;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}.google:hover{background:#f8fafc}.google-icon{width:19px;height:19px}.message{display:none;padding:12px 14px;border-radius:12px;font-size:13px;line-height:1.5;margin-bottom:17px}.message.show{display:block}.message.error{background:#fff0f0;color:var(--danger);border:1px solid #f3d4d4}.message.info{background:#eef6ff;color:#23598f;border:1px solid #d8e8fa}.message.success{background:#edf9f3;color:#136d48;border:1px solid #cfeedd}.small{font-size:12px;color:#8a96a8;line-height:1.5;text-align:center;margin-top:19px}.back{display:none;margin-bottom:18px}.back.show{display:block}
+    @media(max-width:850px){.shell{grid-template-columns:1fr}.brand{min-height:310px;padding:36px}.brand h1{font-size:45px}.brand-footer{margin-top:35px}.panel{padding:38px 30px}}@media(max-width:520px){body{padding:0}.shell{min-height:100vh;border-radius:0}.brand{min-height:265px;padding:28px}.panel{padding:30px 22px}.brand h1{font-size:40px}}
   </style>
 </head>
 <body>
   <main class="shell">
-    <section class="brand-panel" aria-label="VMS">
-      <div class="brand-top">
-        <div class="brand-mark" aria-hidden="true">🚘</div>
-        <p class="eyebrow">IKTBN Chembong</p>
-        <h1>VMS</h1>
-        <p class="lead">Sistem Pengurusan Kenderaan Jabatan</p>
-      </div>
-
-      <div class="brand-footer">
-        Akses sistem adalah berdasarkan akaun dan peranan pengguna yang ditetapkan.
-      </div>
+    <section class="brand">
+      <div><div class="mark">🚘</div><p class="eyebrow">IKTBN CHEMBONG</p><h1>VMS</h1><p class="lead">Sistem Pengurusan Kenderaan Jabatan</p></div>
+      <div class="brand-footer">Akses sistem mengikut akaun dan peranan pengguna. Pendaftaran baharu menghasilkan akaun <strong>Pemohon</strong>.</div>
     </section>
-
-    <section class="login-panel">
-      <div class="login-card">
+    <section class="panel">
+      <div class="card">
         <p class="eyebrow" style="color:#7a8aa5">SECURE ACCESS</p>
-        <h2 class="login-title">Sign in to VMS</h2>
-        <p class="login-sub">Log masuk untuk meneruskan ke sistem pengurusan kenderaan.</p>
-
+        <div id="backWrap" class="back"><button id="backBtn" class="link">← Kembali ke Log Masuk</button></div>
+        <h2 id="pageTitle" class="title">Log masuk ke VMS</h2>
+        <p id="pageSub" class="sub">Gunakan akaun VMS anda untuk meneruskan.</p>
         <div id="message" class="message" role="alert"></div>
 
-        <form id="loginForm" autocomplete="on">
-          <div class="field">
-            <label for="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autocomplete="username"
-              placeholder="nama@domain.com"
-              required
-            />
-          </div>
+        <div id="loginView" class="view">
+          <div class="switch"><button id="tabLogin" class="active" type="button">Log Masuk</button><button id="tabRegister" type="button">Create Account</button></div>
+          <form id="loginForm" class="form active" autocomplete="on">
+            <div class="field"><label for="loginEmail">Email</label><input id="loginEmail" type="email" autocomplete="username" placeholder="nama@domain.com" required></div>
+            <div class="field"><label for="loginPassword">Password</label><div class="input-wrap"><input id="loginPassword" type="password" autocomplete="current-password" placeholder="Masukkan password" required><button class="eye" type="button" data-toggle="loginPassword">👁</button></div></div>
+            <div class="row"><button id="forgotBtn" class="link" type="button">Forgot Password?</button></div>
+            <button id="loginBtn" class="primary" type="submit">SIGN IN</button>
+            <div class="divider">ATAU</div>
+            <button id="googleBtn" class="google" type="button"><svg class="google-icon" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.35 12.2c0-.7-.06-1.36-.18-2H12v3.79h5.24a4.48 4.48 0 0 1-1.94 2.94v2.45h3.14c1.84-1.69 2.91-4.18 2.91-7.18z"/><path fill="#34A853" d="M12 21.7c2.62 0 4.82-.86 6.42-2.32l-3.14-2.45c-.87.58-1.98.92-3.28.92-2.52 0-4.66-1.7-5.43-3.99H3.32v2.53A9.7 9.7 0 0 0 12 21.7z"/><path fill="#FBBC05" d="M6.57 13.86A5.83 5.83 0 0 1 6.27 12c0-.65.11-1.28.3-1.86V7.61H3.32A9.7 9.7 0 0 0 2.3 12c0 1.57.38 3.06 1.02 4.39l3.25-2.53z"/><path fill="#EA4335" d="M12 6.15c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.82 3.16 14.62 2.3 12 2.3a9.7 9.7 0 0 0-8.68 5.31l3.25 2.53C7.34 7.85 9.48 6.15 12 6.15z"/></svg>Continue with Google</button>
+          </form>
+          <form id="registerForm" class="form" autocomplete="on">
+            <div class="field"><label for="regName">Nama Penuh</label><input id="regName" type="text" autocomplete="name" placeholder="Nama penuh" required></div>
+            <div class="field"><label for="regEmail">Email</label><input id="regEmail" type="email" autocomplete="email" placeholder="nama@domain.com" required></div>
+            <div class="field"><label for="regPhone">No. Telefon <span style="font-weight:500;color:#9aa6b7">(optional)</span></label><input id="regPhone" type="tel" autocomplete="tel" placeholder="01X-XXXXXXX"></div>
+            <div class="field"><label for="regPassword">Password</label><div class="input-wrap"><input id="regPassword" type="password" autocomplete="new-password" placeholder="Minimum 8 aksara" required><button class="eye" type="button" data-toggle="regPassword">👁</button></div></div>
+            <div class="field"><label for="regPassword2">Sahkan Password</label><div class="input-wrap"><input id="regPassword2" type="password" autocomplete="new-password" placeholder="Ulang password" required><button class="eye" type="button" data-toggle="regPassword2">👁</button></div></div>
+            <button id="registerBtn" class="primary" type="submit">CREATE ACCOUNT</button>
+            <div class="small">Akaun pendaftaran baharu akan menggunakan role <strong>Pemohon</strong>. Role pentadbiran ditetapkan melalui pengurusan sistem.</div>
+          </form>
+        </div>
 
-          <div class="field">
-            <label for="password">Password</label>
-            <div class="input-wrap">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Masukkan password"
-                required
-              />
-              <button class="toggle-password" type="button" id="togglePassword" aria-label="Show password">👁</button>
-            </div>
-          </div>
-
-          <button id="loginBtn" class="submit-btn" type="submit">SIGN IN</button>
+        <form id="forgotForm" class="form">
+          <div class="field"><label for="forgotEmail">Email berdaftar</label><input id="forgotEmail" type="email" autocomplete="email" placeholder="nama@domain.com" required></div>
+          <button id="forgotSubmit" class="primary" type="submit">HANTAR RESET LINK</button>
+          <div class="small">Pautan penukaran password akan dihantar ke email tersebut jika akaun boleh diproses.</div>
         </form>
 
-        <div class="security-note">
-          VMS • IKTBN Chembong
-        </div>
+        <div class="small">VMS • IKTBN Chembong</div>
       </div>
     </section>
   </main>
 
-  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Existing VMS auth foundation -->
   <script src="/js/config/supabase.js"></script>
   <script src="/js/auth/auth.js"></script>
   <script src="/js/auth/session.js"></script>
   <script src="/js/auth/role-guard.js"></script>
-
   <script>
     (() => {
       'use strict';
+      const $ = (id) => document.getElementById(id);
+      const message = $('message');
+      const loginView = $('loginView');
+      const loginForm = $('loginForm');
+      const registerForm = $('registerForm');
+      const forgotForm = $('forgotForm');
+      const title = $('pageTitle');
+      const sub = $('pageSub');
+      const backWrap = $('backWrap');
 
-      const form = document.getElementById('loginForm');
-      const emailInput = document.getElementById('email');
-      const passwordInput = document.getElementById('password');
-      const loginBtn = document.getElementById('loginBtn');
-      const message = document.getElementById('message');
-      const togglePassword = document.getElementById('togglePassword');
+      function showMessage(text, type='error') { message.textContent = text || ''; message.className = text ? `message show ${type}` : 'message'; }
+      function busy(button, busyText, normalText, value) { button.disabled = value; button.textContent = value ? busyText : normalText; }
+      function showLogin(mode='login') {
+        backWrap.classList.remove('show'); forgotForm.classList.remove('active'); loginView.style.display='block';
+        $('tabLogin').classList.toggle('active', mode==='login'); $('tabRegister').classList.toggle('active', mode==='register');
+        loginForm.classList.toggle('active', mode==='login'); registerForm.classList.toggle('active', mode==='register');
+        title.textContent = mode==='register' ? 'Cipta akaun VMS' : 'Log masuk ke VMS';
+        sub.textContent = mode==='register' ? 'Daftar akaun baharu untuk menggunakan modul Pemohon.' : 'Gunakan akaun VMS anda untuk meneruskan.';
+      }
+      function showForgot() { loginView.style.display='none'; forgotForm.classList.add('active'); backWrap.classList.add('show'); title.textContent='Reset password'; sub.textContent='Masukkan email akaun anda untuk menerima pautan reset password.'; showMessage('','info'); }
+      function clientReady() { if (!window.supabaseClient?.auth) throw new Error('Supabase client tidak dijumpai. Semak /js/config/supabase.js.'); }
 
-      const showMessage = (text, type = 'error') => {
-        message.textContent = text;
-        message.className = `message show ${type}`;
-      };
+      $('tabLogin').onclick=()=>{showMessage('');showLogin('login')};
+      $('tabRegister').onclick=()=>{showMessage('');showLogin('register')};
+      $('forgotBtn').onclick=showForgot;
+      $('backBtn').onclick=()=>{showMessage('');showLogin('login')};
+      document.querySelectorAll('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const input=$(btn.dataset.toggle); const visible=input.type==='text'; input.type=visible?'password':'text'; btn.textContent=visible?'👁':'🙈';}));
 
-      const setLoading = (loading) => {
-        loginBtn.disabled = loading;
-        loginBtn.textContent = loading ? 'SIGNING IN…' : 'SIGN IN';
-      };
-
-      const getClient = () => {
-        if (window.supabaseClient && window.supabaseClient.auth) return window.supabaseClient;
-        if (window.supabase && typeof window.supabase.createClient !== 'function' && window.supabase.auth) return window.supabase;
-        return null;
-      };
-
-      togglePassword.addEventListener('click', () => {
-        const showing = passwordInput.type === 'text';
-        passwordInput.type = showing ? 'password' : 'text';
-        togglePassword.textContent = showing ? '👁' : '🙈';
-        togglePassword.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+      loginForm.addEventListener('submit', async (e)=>{
+        e.preventDefault(); const btn=$('loginBtn'); showMessage(''); busy(btn,'SIGNING IN…','SIGN IN',true);
+        try { clientReady(); const {data,error}=await window.VMSAuth.signIn($('loginEmail').value,$('loginPassword').value); if(error) throw error; if(!data?.user) throw new Error('Login berjaya tetapi pengguna tidak diterima.'); showMessage('Login berjaya. Membuka VMS…','success'); setTimeout(()=>location.replace('/index.html'),350); }
+        catch(err){console.error(err);showMessage(err?.message||'Login gagal. Sila semak email dan password.');} finally{busy(btn,'SIGNING IN…','SIGN IN',false)}
       });
 
-      form.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        showMessage('', 'info');
-        message.classList.remove('show');
-        setLoading(true);
-
-        try {
-          const client = getClient();
-
-          if (!client) {
-            throw new Error(
-              'Supabase client tidak dijumpai. Semak /js/config/supabase.js dan pastikan ia dimuatkan sebelum login script.'
-            );
-          }
-
-          const email = emailInput.value.trim();
-          const password = passwordInput.value;
-
-          const { data, error } = await client.auth.signInWithPassword({
-            email,
-            password
-          });
-
-          if (error) throw error;
-
-          if (!data?.user) {
-            throw new Error('Login berjaya tetapi maklumat pengguna tidak diterima.');
-          }
-
-          showMessage('Login berjaya. Membuka VMS…', 'success');
-
-          // Give the auth state listener a moment to persist the session.
-          setTimeout(() => {
-            window.location.href = '/index.html';
-          }, 400);
-
-        } catch (error) {
-          console.error('VMS login error:', error);
-          showMessage(error?.message || 'Login gagal. Sila semak email dan password.', 'error');
-        } finally {
-          setLoading(false);
-        }
+      registerForm.addEventListener('submit', async (e)=>{
+        e.preventDefault(); const btn=$('registerBtn'); const p1=$('regPassword').value; const p2=$('regPassword2').value;
+        if(p1!==p2){showMessage('Password dan pengesahan password tidak sama.');return;} busy(btn,'CREATING…','CREATE ACCOUNT',true); showMessage('');
+        try { clientReady(); const {data,error}=await window.VMSAuth.signUp({fullName:$('regName').value,email:$('regEmail').value,password:p1,phone:$('regPhone').value}); if(error) throw error;
+          if(data?.session){showMessage('Akaun berjaya dicipta. Membuka VMS…','success');setTimeout(()=>location.replace('/index.html'),500);}
+          else {showMessage('Akaun berjaya dicipta. Sila semak email anda untuk pengesahan sebelum log masuk.','success');$('loginEmail').value=$('regEmail').value;showLogin('login');}
+        } catch(err){console.error(err);showMessage(err?.message||'Pendaftaran gagal.');} finally{busy(btn,'CREATING…','CREATE ACCOUNT',false)}
       });
+
+      $('googleBtn').addEventListener('click',async()=>{const btn=$('googleBtn');btn.disabled=true;showMessage('Menghubungkan ke Google…','info');try{clientReady();const {error}=await window.VMSAuth.signInWithGoogle();if(error)throw error;}catch(err){console.error(err);showMessage(err?.message||'Google Sign-In gagal.');btn.disabled=false;}});
+
+      forgotForm.addEventListener('submit',async(e)=>{e.preventDefault();const btn=$('forgotSubmit');busy(btn,'SENDING…','HANTAR RESET LINK',true);showMessage('');try{clientReady();const {error}=await window.VMSAuth.resetPassword($('forgotEmail').value);if(error)throw error;showMessage('Reset link telah diminta. Semak inbox dan folder spam email anda.','success');}catch(err){console.error(err);showMessage(err?.message||'Permintaan reset gagal.');}finally{busy(btn,'SENDING…','HANTAR RESET LINK',false)}});
+
+      // If already authenticated, let the existing index/role router decide the dashboard.
+      window.VMSSession?.loadSession?.().then(state=>{if(state?.user&&state?.session){location.replace('/index.html');}}).catch(()=>{});
     })();
   </script>
 </body>
