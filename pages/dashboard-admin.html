@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Admin | VMS IKTBN Chembong</title>
   <link rel="stylesheet" href="/css/vms-role-dashboard.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/config/supabase.js"></script>
   <script src="/js/auth/auth.js"></script>
@@ -12,64 +15,256 @@
   <script src="/js/auth/role-guard.js"></script>
 </head>
 <body data-page-roles="admin">
-<div class="vms-shell">
-  <header class="vms-topbar">
-    <div class="vms-topbar-inner">
-      <a class="vms-brand" href="/index.html">
-        <span class="vms-brand-mark">🚘</span>
-        <span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span>
-      </a>
-      <div class="vms-top-actions">
-        <span class="vms-role-pill">ADMIN</span>
-        <span class="vms-user-pill" data-user-name>—</span>
-        <button class="vms-btn vms-btn-dark" id="logoutBtn">Logout</button>
+  <div class="admin-app">
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <a class="admin-brand" href="/index.html" aria-label="VMS Dashboard">
+          <span class="admin-brand-mark">🚘</span>
+          <span>
+            <strong>VMS</strong>
+            <small>IKTBN CHEMBONG</small>
+          </span>
+        </a>
+
+        <nav class="admin-nav" aria-label="Navigasi utama">
+          <a class="active" data-home-link href="/index.html">Dashboard</a>
+          <a href="/pages/jadual-perjalanan.html">Jadual Perjalanan</a>
+          <a href="/pages/vehicles.html">Kenderaan</a>
+          <a href="/pages/drivers.html">Pemandu</a>
+          <a href="/pages/assignments.html">Assignment</a>
+          <a href="/pages/reports.html">Laporan</a>
+        </nav>
+
+        <div class="admin-user-area">
+          <span class="admin-role-badge">ADMIN</span>
+          <span class="admin-user-name" data-user-name>—</span>
+          <button class="admin-logout" id="logoutBtn" type="button">Logout</button>
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="vms-main">
-    <section class="vms-hero">
-      <p class="vms-eyebrow">VMS • IKTBN CHEMBONG</p>
-      <h1>Dashboard Administrator</h1>
-      <p>Kawalan pusat untuk operasi, fleet, pemandu, assignment dan konfigurasi sistem.</p>
-    </section>
+    <main class="admin-main">
+      <section class="admin-hero">
+        <div>
+          <div class="admin-eyebrow">VMS • IKTBN CHEMBONG</div>
+          <h1>Dashboard Administrator</h1>
+          <p>Kawalan pusat untuk fleet, pemandu, permohonan, perjalanan dan pemantauan sistem.</p>
+        </div>
+        <div class="hero-actions">
+          <a class="hero-action primary" href="/pages/jadual-perjalanan.html">📅 Lihat Jadual</a>
+          <a class="hero-action" href="/pages/reports.html">▣ Buka Laporan</a>
+        </div>
+      </section>
 
-    
-<div class="vms-grid vms-grid-4">
-  <div class="vms-card vms-stat"><div class="label">Permohonan</div><div class="value">—</div><div class="hint">Menunggu semakan</div></div>
-  <div class="vms-card vms-stat"><div class="label">Kenderaan</div><div class="value">—</div><div class="hint">Fleet berdaftar</div></div>
-  <div class="vms-card vms-stat"><div class="label">Pemandu</div><div class="value">—</div><div class="hint">Aktif</div></div>
-  <div class="vms-card vms-stat"><div class="label">Perjalanan</div><div class="value">—</div><div class="hint">Hari ini</div></div>
-</div>
-<div class="vms-card" style="margin-top:18px">
-  <div class="vms-panel-head"><div><h2>Administrator</h2><p>Akses operasi dan konfigurasi penuh mengikut RLS.</p></div></div>
-  <div class="vms-nav-grid">
-    <a class="vms-nav-tile" href="/pages/jadual-perjalanan.html"><strong>Jadual Perjalanan</strong><span>Lihat semua pergerakan jabatan.</span></a>
-    <a class="vms-nav-tile" href="/pages/vehicles.html"><strong>Kenderaan</strong><span>Pengurusan fleet dan status.</span></a>
-    <a class="vms-nav-tile" href="/pages/drivers.html"><strong>Pemandu</strong><span>Lesen, kelayakan dan lantikan.</span></a>
-    <a class="vms-nav-tile" href="/pages/assignments.html"><strong>Assignment</strong><span>Penugasan kenderaan dan pemandu.</span></a>
+      <section class="admin-status-row" aria-label="Status sistem">
+        <div class="system-status"><span class="status-dot"></span> Sistem Operasi</div>
+        <div class="last-refresh" id="lastRefresh">Data sedang dimuatkan…</div>
+      </section>
+
+      <section class="stat-grid" aria-label="Ringkasan">
+        <article class="stat-card">
+          <div class="stat-icon blue">▣</div>
+          <div>
+            <div class="stat-label">Permohonan</div>
+            <div class="stat-value" id="statRequests">—</div>
+            <div class="stat-hint">Rekod permohonan</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon cyan">🚘</div>
+          <div>
+            <div class="stat-label">Kenderaan</div>
+            <div class="stat-value" id="statVehicles">—</div>
+            <div class="stat-hint">Fleet berdaftar</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon purple">👤</div>
+          <div>
+            <div class="stat-label">Pemandu</div>
+            <div class="stat-value" id="statDrivers">—</div>
+            <div class="stat-hint">Rekod pemandu</div>
+          </div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-icon green">↗</div>
+          <div>
+            <div class="stat-label">Assignment</div>
+            <div class="stat-value" id="statAssignments">—</div>
+            <div class="stat-hint">Penugasan direkodkan</div>
+          </div>
+        </article>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel-card wide">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">OPERASI</div>
+              <h2>Akses Pantas</h2>
+              <p>Modul utama yang kerap digunakan oleh pentadbir.</p>
+            </div>
+          </div>
+
+          <div class="module-grid">
+            <a class="module-card" href="/pages/jadual-perjalanan.html">
+              <span class="module-icon">📅</span>
+              <span><strong>Jadual Perjalanan</strong><small>Semua pergerakan jabatan</small></span>
+              <b>→</b>
+            </a>
+            <a class="module-card" href="/pages/requests.html">
+              <span class="module-icon">▣</span>
+              <span><strong>Permohonan</strong><small>Semakan dan status</small></span>
+              <b>→</b>
+            </a>
+            <a class="module-card" href="/pages/vehicles.html">
+              <span class="module-icon">🚘</span>
+              <span><strong>Kenderaan</strong><small>Fleet dan penyelenggaraan</small></span>
+              <b>→</b>
+            </a>
+            <a class="module-card" href="/pages/drivers.html">
+              <span class="module-icon">👤</span>
+              <span><strong>Pemandu</strong><small>Lesen dan kelayakan</small></span>
+              <b>→</b>
+            </a>
+            <a class="module-card" href="/pages/fuel.html">
+              <span class="module-icon">⛽</span>
+              <span><strong>Bahan Api</strong><small>Kad minyak dan transaksi</small></span>
+              <b>→</b>
+            </a>
+            <a class="module-card" href="/pages/reports.html">
+              <span class="module-icon">▤</span>
+              <span><strong>Laporan</strong><small>Ringkasan operasi</small></span>
+              <b>→</b>
+            </a>
+          </div>
+        </article>
+
+        <article class="panel-card">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">PEMANTAUAN</div>
+              <h2>Ringkasan Fleet</h2>
+            </div>
+          </div>
+
+          <div class="fleet-status">
+            <div class="fleet-row"><span><i class="mini-dot available"></i>Available</span><strong id="fleetAvailable">—</strong></div>
+            <div class="fleet-row"><span><i class="mini-dot maintenance"></i>Maintenance</span><strong id="fleetMaintenance">—</strong></div>
+            <div class="fleet-row"><span><i class="mini-dot service"></i>Service</span><strong id="fleetService">—</strong></div>
+            <div class="fleet-row"><span><i class="mini-dot breakdown"></i>Breakdown</span><strong id="fleetBreakdown">—</strong></div>
+          </div>
+
+          <a class="panel-link" href="/pages/vehicles.html">Buka pengurusan fleet →</a>
+        </article>
+      </section>
+
+      <section class="content-grid lower">
+        <article class="panel-card">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">PEMANDU</div>
+              <h2>Ringkasan Pemandu</h2>
+            </div>
+          </div>
+          <div class="driver-summary">
+            <div class="driver-summary-item">
+              <span class="summary-number" id="driverActive">—</span>
+              <span>Aktif</span>
+            </div>
+            <div class="driver-summary-item">
+              <span class="summary-number" id="driverReplacement">—</span>
+              <span>Gantian</span>
+            </div>
+            <div class="driver-summary-item">
+              <span class="summary-number" id="driverExternal">—</span>
+              <span>Luar / Agensi</span>
+            </div>
+          </div>
+          <a class="panel-link" href="/pages/drivers.html">Urus pemandu →</a>
+        </article>
+
+        <article class="panel-card">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">JADUAL</div>
+              <h2>Pergerakan Terkini</h2>
+            </div>
+          </div>
+          <div class="empty-state">
+            <span>📅</span>
+            <p id="scheduleMessage">Tiada perjalanan dijadualkan untuk dipaparkan.</p>
+            <a href="/pages/jadual-perjalanan.html">Lihat semua jadual →</a>
+          </div>
+        </article>
+
+        <article class="panel-card">
+          <div class="panel-head">
+            <div>
+              <div class="panel-kicker">KESELAMATAN</div>
+              <h2>Kawalan Akses</h2>
+            </div>
+          </div>
+          <div class="access-list">
+            <div><span>Role Guard</span><strong class="ok">ACTIVE</strong></div>
+            <div><span>Session</span><strong class="ok">ACTIVE</strong></div>
+            <div><span>RLS</span><strong class="ok">ENFORCED</strong></div>
+          </div>
+        </article>
+      </section>
+
+      <footer class="admin-footer">
+        <span>VMS • Sistem Pengurusan Kenderaan Jabatan</span>
+        <span>IKTBN Chembong</span>
+      </footer>
+    </main>
   </div>
-</div>
 
-    
-    <div class="vms-footer">Sistem Pengurusan Kenderaan Jabatan • VMS</div>
-  </main>
-</div>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const ok = await window.VMSRoleGuard.initPageGuard();
-    if (!ok) return;
-    const profile = window.VMSSession.getProfile();
-    const el = document.querySelector('[data-user-name]');
-    if (el) el.textContent = profile?.full_name || 'User';
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await window.VMSSession.logout({ redirect: true });
-    });
-  } catch (e) {
-    console.error(e);
-  }
-});
-</script>
+  <style>
+    :root{
+      --navy:#101d35; --navy2:#172642; --ink:#17243b; --muted:#718099;
+      --line:#e4eaf1; --bg:#f4f7fb; --white:#fff; --green:#18a66b;
+      --shadow:0 18px 55px rgba(20,36,62,.09);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--ink)}
+    a{text-decoration:none;color:inherit}
+    .admin-app{min-height:100vh}
+    .admin-topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+    .admin-topbar-inner{max-width:1500px;margin:auto;min-height:78px;padding:0 28px;display:flex;align-items:center;gap:20px}
+    .admin-brand{display:flex;align-items:center;gap:11px;min-width:215px}
+    .admin-brand-mark{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:var(--navy);font-size:21px}
+    .admin-brand strong{display:block;font-size:18px;letter-spacing:.04em}.admin-brand small{display:block;margin-top:2px;font-size:9px;letter-spacing:.18em;font-weight:900;color:#8190a6}
+    .admin-nav{display:flex;align-items:center;gap:5px;flex:1;justify-content:center}
+    .admin-nav a{padding:10px 12px;border-radius:11px;font-size:12px;font-weight:800;color:#607089;white-space:nowrap}
+    .admin-nav a:hover,.admin-nav a.active{background:#eef3f8;color:var(--navy)}
+    .admin-user-area{display:flex;align-items:center;gap:9px}
+    .admin-role-badge{font-size:10px;font-weight:900;letter-spacing:.12em;color:#176e50;background:#e6f7ef;padding:8px 9px;border-radius:999px}
+    .admin-user-name{font-size:12px;font-weight:800;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .admin-logout{border:0;background:var(--navy);color:#fff;border-radius:10px;padding:10px 13px;font-weight:800;font-size:11px;cursor:pointer}
+    .admin-main{max-width:1500px;margin:auto;padding:28px}
+    .admin-hero{border-radius:26px;padding:32px 34px;background:linear-gradient(135deg,#10203c 0%,#1c2e4f 58%,#233b63 100%);box-shadow:var(--shadow);display:flex;align-items:end;justify-content:space-between;gap:24px;color:#fff;position:relative;overflow:hidden}
+    .admin-hero:after{content:"";position:absolute;right:-90px;bottom:-150px;width:460px;height:460px;border-radius:50%;border:1px solid rgba(255,255,255,.08);box-shadow:0 0 0 70px rgba(255,255,255,.025),0 0 0 140px rgba(255,255,255,.02)}
+    .admin-eyebrow{font-size:10px;letter-spacing:.2em;font-weight:900;color:#a9bddb}.admin-hero h1{font-size:34px;line-height:1.12;margin:9px 0 8px}.admin-hero p{margin:0;color:#ccdaec;max-width:760px;line-height:1.65;font-size:13px}
+    .hero-actions{display:flex;gap:9px;position:relative;z-index:1}.hero-action{padding:12px 15px;border:1px solid rgba(255,255,255,.18);border-radius:12px;color:#fff;font-size:11px;font-weight:800;background:rgba(255,255,255,.07)}.hero-action.primary{background:#18a66b;border-color:#18a66b}
+    .admin-status-row{display:flex;justify-content:space-between;align-items:center;padding:12px 3px 18px;color:#718099;font-size:11px;font-weight:700}.system-status{display:flex;align-items:center;gap:7px}.status-dot{width:8px;height:8px;border-radius:50%;background:#18a66b;box-shadow:0 0 0 4px #dff6eb}
+    .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stat-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:19px;display:flex;align-items:center;gap:15px;box-shadow:0 9px 28px rgba(20,36,62,.045)}.stat-icon{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;font-size:18px;font-weight:900}.stat-icon.blue{background:#edf3ff}.stat-icon.cyan{background:#e9f9fb}.stat-icon.purple{background:#f4efff}.stat-icon.green{background:#e9f8f1}.stat-label{font-size:10px;font-weight:900;letter-spacing:.08em;color:#8190a6;text-transform:uppercase}.stat-value{font-size:28px;font-weight:900;line-height:1.1;margin-top:2px}.stat-hint{font-size:10px;color:#92a0b4;margin-top:3px}
+    .content-grid{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-top:14px}.content-grid.lower{grid-template-columns:repeat(3,1fr)}
+    .panel-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:21px;box-shadow:0 9px 28px rgba(20,36,62,.045)}.panel-head{display:flex;justify-content:space-between;gap:15px;margin-bottom:16px}.panel-kicker{font-size:9px;letter-spacing:.18em;font-weight:900;color:#8694a9}.panel-head h2{font-size:18px;margin:5px 0 3px}.panel-head p{margin:0;font-size:11px;color:#8491a5}
+    .module-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.module-card{border:1px solid #e9eef4;border-radius:14px;padding:13px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:11px;transition:.18s ease}.module-card:hover{transform:translateY(-2px);box-shadow:0 9px 24px rgba(20,36,62,.07);border-color:#dbe4ee}.module-icon{width:38px;height:38px;border-radius:11px;background:#f2f6fa;display:grid;place-items:center;font-size:16px}.module-card strong{display:block;font-size:12px}.module-card small{display:block;font-size:10px;color:#8a97aa;margin-top:3px}.module-card b{color:#9aa7b8}
+    .fleet-status{display:grid;gap:12px;margin-top:10px}.fleet-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;font-weight:700;color:#506078}.fleet-row strong{font-size:16px;color:var(--ink)}.mini-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:8px}.available{background:#18a66b}.maintenance{background:#f0ab2e}.service{background:#6c8bea}.breakdown{background:#e45c67}
+    .panel-link{display:inline-block;margin-top:18px;font-size:11px;color:#197553;font-weight:900}
+    .driver-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.driver-summary-item{padding:14px 8px;border-radius:13px;background:#f6f8fb;text-align:center;font-size:10px;color:#8190a6;font-weight:800}.summary-number{display:block;font-size:22px;color:var(--ink);margin-bottom:3px}
+    .empty-state{text-align:center;padding:20px 8px;color:#8592a6}.empty-state>span{display:block;font-size:23px;margin-bottom:8px}.empty-state p{font-size:11px;line-height:1.55;margin:0 auto 12px;max-width:260px}.empty-state a{font-size:11px;color:#197553;font-weight:900}
+    .access-list{display:grid;gap:11px}.access-list div{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:#66758c;padding-bottom:10px;border-bottom:1px solid #edf1f5}.access-list div:last-child{border-bottom:0;padding-bottom:0}.ok{font-size:9px;letter-spacing:.1em;color:#197553}
+    .admin-footer{display:flex;justify-content:space-between;padding:22px 3px 6px;color:#8a98ab;font-size:10px}
+    @media (max-width:1100px){.admin-nav{justify-content:flex-start;overflow-x:auto}.admin-user-name{display:none}.stat-grid{grid-template-columns:repeat(2,1fr)}.content-grid,.content-grid.lower{grid-template-columns:1fr}.admin-hero{align-items:flex-start;flex-direction:column}}
+    @media (max-width:680px){.admin-topbar-inner{padding:12px 16px;align-items:flex-start}.admin-brand{min-width:auto}.admin-nav{display:none}.admin-main{padding:16px}.admin-hero{padding:23px;border-radius:21px}.admin-hero h1{font-size:27px}.hero-actions{width:100%;flex-direction:column}.hero-action{text-align:center}.stat-grid{grid-template-columns:1fr}.module-grid{grid-template-columns:1fr}.admin-footer{flex-direction:column;gap:5px}.admin-role-badge{display:none}}
+  </style>
+
+<script src="/js/modules/dashboard-admin.js"></script>
 </body>
 </html>
