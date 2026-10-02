@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadual Perjalanan | VMS IKTBN Chembong</title>
+  <link rel="stylesheet" href="/css/vms-role-dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config/supabase.js"></script>
+  <script src="/js/auth/auth.js"></script>
+  <script src="/js/auth/session.js"></script>
+  <script src="/js/auth/role-guard.js"></script>
+</head>
+<body data-page-roles="admin,pegawai_kenderaan,pemohon,pelajar">
+<div class="vms-shell">
+<header class="vms-topbar">
+  <div class="vms-topbar-inner">
+    <a class="vms-brand" href="/index.html"><span class="vms-brand-mark">🚘</span><span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span></a>
+    <div class="vms-top-actions">
+      <span class="vms-role-pill" data-role>—</span>
+      <span class="vms-user-pill" data-user-name>—</span>
+      <button class="vms-btn vms-btn-dark" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+<main class="vms-main">
+  <section class="vms-hero">
+    <p class="vms-eyebrow">GLOBAL READ-ONLY SCHEDULE</p>
+    <h1>Jadual Perjalanan Jabatan</h1>
+    <p>Semua pergerakan perjalanan yang telah dijadualkan. Maklumat peribadi, dokumen sokongan dan maklumat dalaman kelulusan tidak dipaparkan.</p>
+  </section>
+
+  <div class="vms-card" style="margin-top:22px">
+    <div class="vms-panel-head">
+      <div><h2>Semua Pergerakan</h2><p>Termasuk perjalanan staf lain dan pemandu lain.</p></div>
+      <span class="vms-badge vms-badge-green">READ ONLY</span>
+    </div>
+
+    <div class="vms-filterbar">
+      <label>Tarikh mula
+        <input id="fromDate" type="date">
+      </label>
+      <label>Tarikh akhir
+        <input id="toDate" type="date">
+      </label>
+      <div style="display:flex;align-items:end">
+        <button class="vms-btn vms-btn-dark" id="applyFilter">Papar Jadual</button>
+      </div>
+    </div>
+
+    <div id="scheduleError" class="vms-error" hidden></div>
+    <div id="scheduleEmpty" class="vms-empty" hidden>Tiada perjalanan dijadualkan dalam tempoh ini.</div>
+
+    <div class="vms-table-wrap">
+      <table class="vms-table">
+        <thead>
+          <tr>
+            <th>Tarikh / Unit</th>
+            <th>Masa</th>
+            <th>Lokasi</th>
+            <th>Kenderaan</th>
+            <th>Pemandu</th>
+            <th>Balik</th>
+            <th>Tujuan</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="scheduleBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="vms-footer">Maklumat pemohon seperti No. KP, telefon, email, lampiran dan maklumat dalaman kelulusan tidak dipaparkan.</div>
+</main>
+</div>
+<script src="/js/modules/jadual-perjalanan.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const ok = await window.VMSRoleGuard.initPageGuard();
+    if (!ok) return;
+    const profile = window.VMSSession.getProfile();
+    document.querySelector('[data-user-name]').textContent = profile?.full_name || 'User';
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await window.VMSSession.logout({redirect:true});
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+</script>
+</body>
+</html>
