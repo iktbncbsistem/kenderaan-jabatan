@@ -6,7 +6,7 @@
  */
 
 const SUPABASE_URL = 'https://oonlogvseziuklrdbfwv.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_rp2hRDVFkpfNP_vERAeZNAQ_5QqRQ3_';
+const SUPABASE_ANON_KEY = 'sb_publishable_rp2hRDbVkFpNV_ERaZENAQ_50gRQk3_';
 
 if (!window.supabase) {
   throw new Error('Supabase JS library is not loaded. Load @supabase/supabase-js before supabase.js.');
