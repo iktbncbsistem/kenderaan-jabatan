@@ -7,82 +7,163 @@
   };
 
   async function countRows(table, filter = null) {
-    let query = client.from(table).select('*', { count: 'exact', head: true });
-    if (filter) query = filter(query);
+    if (!client) return null;
+
+    let query = client
+      .from(table)
+      .select('*', { count: 'exact', head: true });
+
+    if (filter) {
+      query = filter(query);
+    }
+
     const { count, error } = await query;
+
     if (error) {
       console.warn(`VMS dashboard count failed: ${table}`, error);
       return null;
     }
+
     return count ?? 0;
   }
 
   async function loadDashboard() {
-    if (!client) {
-      console.error('VMS: supabaseClient is not available.');
-      return;
-    }
-
-    const [requests, vehicles, drivers, assignments] = await Promise.all([
+    const [
+      requests,
+      vehicles,
+      drivers,
+      assignments
+    ] = await Promise.all([
       countRows('travel_requests'),
       countRows('vehicles'),
       countRows('drivers'),
       countRows('travel_assignments')
     ]);
 
-    setText('statRequests', requests === null ? '—' : requests);
-    setText('statVehicles', vehicles === null ? '—' : vehicles);
-    setText('statDrivers', drivers === null ? '—' : drivers);
-    setText('statAssignments', assignments === null ? '—' : assignments);
+    setText('statRequests', requests ?? '—');
+    setText('statVehicles', vehicles ?? '—');
+    setText('statDrivers', drivers ?? '—');
+    setText('statAssignments', assignments ?? '—');
 
-    const [available, maintenance, service, breakdown] = await Promise.all([
-      countRows('vehicles', q => q.eq('status', 'available')),
-      countRows('vehicles', q => q.eq('status', 'maintenance')),
-      countRows('vehicles', q => q.eq('status', 'service')),
-      countRows('vehicles', q => q.eq('status', 'breakdown'))
+    /*
+     * IMPORTANT:
+     * Vehicles table uses vehicle_status,
+     * NOT status.
+     */
+    const [
+      available,
+      maintenance,
+      service,
+      breakdown
+    ] = await Promise.all([
+      countRows(
+        'vehicles',
+        q => q.eq('vehicle_status', 'available')
+      ),
+
+      countRows(
+        'vehicles',
+        q => q.eq('vehicle_status', 'maintenance')
+      ),
+
+      countRows(
+        'vehicles',
+        q => q.eq('vehicle_status', 'service')
+      ),
+
+      countRows(
+        'vehicles',
+        q => q.eq('vehicle_status', 'breakdown')
+      )
     ]);
 
-    setText('fleetAvailable', available === null ? '—' : available);
-    setText('fleetMaintenance', maintenance === null ? '—' : maintenance);
-    setText('fleetService', service === null ? '—' : service);
-    setText('fleetBreakdown', breakdown === null ? '—' : breakdown);
+    setText('fleetAvailable', available ?? '—');
+    setText('fleetMaintenance', maintenance ?? '—');
+    setText('fleetService', service ?? '—');
+    setText('fleetBreakdown', breakdown ?? '—');
 
-    const [active, replacement, external] = await Promise.all([
-      countRows('drivers', q => q.eq('driver_status', 'active')),
-      countRows('drivers', q => q.eq('driver_type', 'replacement')),
-      countRows('drivers', q => q.eq('driver_type', 'external'))
+    const [
+      activeDrivers,
+      replacementDrivers,
+      externalDrivers
+    ] = await Promise.all([
+      countRows(
+        'drivers',
+        q => q.eq('driver_status', 'active')
+      ),
+
+      countRows(
+        'drivers',
+        q => q.eq('driver_type', 'replacement')
+      ),
+
+      countRows(
+        'drivers',
+        q => q.eq('driver_type', 'external')
+      )
     ]);
 
-    setText('driverActive', active === null ? '—' : active);
-    setText('driverReplacement', replacement === null ? '—' : replacement);
-    setText('driverExternal', external === null ? '—' : external);
+    setText('driverActive', activeDrivers ?? '—');
+    setText('driverReplacement', replacementDrivers ?? '—');
+    setText('driverExternal', externalDrivers ?? '—');
 
-    setText(
-      'lastRefresh',
-      `Dikemas kini ${new Intl.DateTimeFormat('ms-MY', {
-        dateStyle: 'medium',
-        timeStyle: 'short'
-      }).format(new Date())}`
-    );
+    const now = new Intl.DateTimeFormat('ms-MY', {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    }).format(new Date());
+
+    setText('lastRefresh', `Dikemas kini ${now}`);
   }
 
-  document.addEventListener('DOMContentLoaded', async () => {
+  async function init() {
     try {
-      const ok = await window.VMSRoleGuard.initPageGuard();
-      if (!ok) return;
+      if (!window.VMSRoleGuard) {
+        console.error('VMSRoleGuard tidak tersedia.');
+        return;
+      }
 
-      const profile = window.VMSSession.getProfile();
-      setText('dummy', '');
-      const nameEl = document.querySelector('[data-user-name]');
-      if (nameEl) nameEl.textContent = profile?.full_name || 'Administrator';
+      const allowed =
+        await window.VMSRoleGuard.initPageGuard();
 
-      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-        await window.VMSSession.logout({ redirect: true });
-      });
+      if (!allowed) return;
+
+      const profile =
+        window.VMSSession?.getProfile?.();
+
+      const nameEl =
+        document.querySelector('[data-user-name]');
+
+      if (nameEl) {
+        nameEl.textContent =
+          profile?.full_name || 'Administrator';
+      }
+
+      const logoutBtn =
+        document.getElementById('logoutBtn');
+
+      if (logoutBtn) {
+        logoutBtn.addEventListener(
+          'click',
+          async () => {
+            await window.VMSSession.logout({
+              redirect: true
+            });
+          }
+        );
+      }
 
       await loadDashboard();
+
     } catch (error) {
-      console.error('VMS Admin Dashboard:', error);
+      console.error(
+        'VMS Admin Dashboard error:',
+        error
+      );
     }
-  });
+  }
+
+  document.addEventListener(
+    'DOMContentLoaded',
+    init
+  );
 })();
