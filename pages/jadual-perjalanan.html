@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="ms">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jadual Perjalanan | VMS IKTBN Chembong</title>
-  <link rel="stylesheet" href="/css/vms-role-dashboard.css">
+  <link rel="stylesheet" href="/css/vms-role-dashboard.css" />
+  <link rel="stylesheet" href="/css/vms-pemohon-schedule.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/config/supabase.js"></script>
   <script src="/js/auth/auth.js"></script>
@@ -13,81 +14,77 @@
 </head>
 <body data-page-roles="admin,pegawai_kenderaan,pemohon,pelajar">
 <div class="vms-shell">
-<header class="vms-topbar">
-  <div class="vms-topbar-inner">
-    <a class="vms-brand" href="/index.html"><span class="vms-brand-mark">🚘</span><span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span></a>
-    <div class="vms-top-actions">
-      <span class="vms-role-pill" data-role>—</span>
-      <span class="vms-user-pill" data-user-name>—</span>
-      <button class="vms-btn vms-btn-dark" id="logoutBtn">Logout</button>
-    </div>
-  </div>
-</header>
-<main class="vms-main">
-  <section class="vms-hero">
-    <p class="vms-eyebrow">GLOBAL READ-ONLY SCHEDULE</p>
-    <h1>Jadual Perjalanan Jabatan</h1>
-    <p>Semua pergerakan perjalanan yang telah dijadualkan. Maklumat peribadi, dokumen sokongan dan maklumat dalaman kelulusan tidak dipaparkan.</p>
-  </section>
-
-  <div class="vms-card" style="margin-top:22px">
-    <div class="vms-panel-head">
-      <div><h2>Semua Pergerakan</h2><p>Termasuk perjalanan staf lain dan pemandu lain.</p></div>
-      <span class="vms-badge vms-badge-green">READ ONLY</span>
-    </div>
-
-    <div class="vms-filterbar">
-      <label>Tarikh mula
-        <input id="fromDate" type="date">
-      </label>
-      <label>Tarikh akhir
-        <input id="toDate" type="date">
-      </label>
-      <div style="display:flex;align-items:end">
-        <button class="vms-btn vms-btn-dark" id="applyFilter">Papar Jadual</button>
+  <header class="vms-topbar">
+    <div class="vms-topbar-inner">
+      <a class="vms-brand" href="/index.html"><span class="vms-brand-mark">🚘</span><span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span></a>
+      <div class="vp-topnav" aria-label="Navigasi utama">
+        <a href="/index.html">Dashboard</a>
+        <a class="active" href="/pages/jadual-perjalanan.html">Jadual Perjalanan</a>
+        <a href="/pages/applications.html">Permohonan</a>
+      </div>
+      <div class="vms-top-actions">
+        <span class="vms-role-pill" data-role>—</span>
+        <span class="vms-user-pill" data-user-name>—</span>
+        <button class="vms-btn vms-btn-dark" id="logoutBtn">Logout</button>
       </div>
     </div>
+  </header>
 
-    <div id="scheduleError" class="vms-error" hidden></div>
-    <div id="scheduleEmpty" class="vms-empty" hidden>Tiada perjalanan dijadualkan dalam tempoh ini.</div>
+  <main class="vp-main">
+    <section class="vp-hero">
+      <p class="vp-eyebrow">GLOBAL READ-ONLY SCHEDULE</p>
+      <h1>Jadual Perjalanan Jabatan</h1>
+      <p>Semua pergerakan yang telah dijadualkan boleh dilihat oleh pengguna yang diberi akses. Jadual ini tidak mendedahkan No. KP, telefon peribadi, email peribadi, lampiran Surat Arahan Tugas atau maklumat dalaman kelulusan.</p>
+      <div class="vp-hero-actions">
+        <a class="vp-btn vp-btn-secondary" href="/pages/dashboard-pemohon.html">← Dashboard Pemohon</a>
+        <a class="vp-btn vp-btn-primary" href="/pages/applications.html">＋ Buat Permohonan</a>
+      </div>
+    </section>
 
-    <div class="vms-table-wrap">
-      <table class="vms-table">
-        <thead>
-          <tr>
-            <th>Tarikh / Unit</th>
-            <th>Masa</th>
-            <th>Lokasi</th>
-            <th>Kenderaan</th>
-            <th>Pemandu</th>
-            <th>Balik</th>
-            <th>Tujuan</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="scheduleBody"></tbody>
-      </table>
-    </div>
-  </div>
+    <section class="vp-card" style="margin-top:16px">
+      <div class="vp-card-head">
+        <div><h2>Semua Pergerakan</h2><p>Data operasi global • read-only</p></div>
+        <span class="vp-status vp-status-green">● LIVE DATABASE</span>
+      </div>
 
-  <div class="vms-footer">Maklumat pemohon seperti No. KP, telefon, email, lampiran dan maklumat dalaman kelulusan tidak dipaparkan.</div>
-</main>
+      <div class="vp-filter">
+        <div class="vp-field"><label>Tarikh mula</label><input id="fromDate" type="date" /></div>
+        <div class="vp-field"><label>Tarikh akhir</label><input id="toDate" type="date" /></div>
+        <div class="vp-field"><label>Carian</label><input id="searchInput" type="search" placeholder="Lokasi, kenderaan, pemandu, tujuan..." /></div>
+        <div class="vp-field"><label>Status</label><select id="statusFilter"><option value="all">Semua</option><option value="scheduled">Scheduled</option><option value="ongoing">Ongoing</option></select></div>
+        <div style="display:flex;align-items:end"><button class="vp-btn vp-btn-primary" id="applyFilter">Papar Jadual</button></div>
+      </div>
+
+      <div class="vp-toolbar">
+        <span class="vp-count" id="resultCount">0 rekod</span>
+        <button class="vp-btn vp-btn-light" id="resetFilter">Set Semula</button>
+      </div>
+
+      <div id="scheduleError" class="vp-error" hidden></div>
+      <div id="scheduleEmpty" class="vp-empty" hidden>Tiada perjalanan dijadualkan dalam tempoh ini.</div>
+
+      <div class="vp-table-wrap">
+        <table class="vp-table">
+          <thead>
+            <tr>
+              <th>Tarikh / Unit</th>
+              <th>Masa</th>
+              <th>Lokasi</th>
+              <th>Kenderaan</th>
+              <th>Pemandu</th>
+              <th>Balik</th>
+              <th>Tujuan</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+
+      <div class="vp-note">Ikon kecil pada kolum Balik: <strong>◷ Tunggu</strong> atau <strong>↩ Tidak Tunggu</strong>. Paparan global hanya menggunakan data yang telah ditapis melalui fungsi database `get_public_driver_schedule`.</div>
+    </section>
+  </main>
 </div>
 <script src="/js/modules/jadual-perjalanan.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const ok = await window.VMSRoleGuard.initPageGuard();
-    if (!ok) return;
-    const profile = window.VMSSession.getProfile();
-    document.querySelector('[data-user-name]').textContent = profile?.full_name || 'User';
-    document.getElementById('logoutBtn').addEventListener('click', async () => {
-      await window.VMSSession.logout({redirect:true});
-    });
-  } catch (e) {
-    console.error(e);
-  }
-});
-</script>
 </body>
 </html>
