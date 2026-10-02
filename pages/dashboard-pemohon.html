@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Pemohon | VMS IKTBN Chembong</title>
+  <link rel="stylesheet" href="/css/vms-role-dashboard.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/js/config/supabase.js"></script>
+  <script src="/js/auth/auth.js"></script>
+  <script src="/js/auth/session.js"></script>
+  <script src="/js/auth/role-guard.js"></script>
+</head>
+<body data-page-roles="pemohon,pelajar">
+<div class="vms-shell">
+  <header class="vms-topbar">
+    <div class="vms-topbar-inner">
+      <a class="vms-brand" href="/index.html">
+        <span class="vms-brand-mark">🚘</span>
+        <span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span>
+      </a>
+      <div class="vms-top-actions">
+        <span class="vms-role-pill">PEMOHON</span>
+        <span class="vms-user-pill" data-user-name>—</span>
+        <button class="vms-btn vms-btn-dark" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="vms-main">
+    <section class="vms-hero">
+      <p class="vms-eyebrow">VMS • IKTBN CHEMBONG</p>
+      <h1>Dashboard Pemohon</h1>
+      <p>Urus permohonan sendiri dan lihat semua pergerakan perjalanan jabatan secara read-only.</p>
+    </section>
+
+    
+<div class="vms-grid vms-grid-3">
+  <div class="vms-card vms-stat"><div class="label">Permohonan Saya</div><div class="value">—</div><div class="hint">Status terkini</div></div>
+  <div class="vms-card vms-stat"><div class="label">Perjalanan Jabatan</div><div class="value">Semua</div><div class="hint">Boleh dilihat</div></div>
+  <div class="vms-card vms-stat"><div class="label">Maklumat Sensitif</div><div class="value">Tersembunyi</div><div class="hint">PII & dokumen dalaman</div></div>
+</div>
+<div class="vms-card" style="margin-top:18px">
+  <div class="vms-panel-head"><div><h2>Menu Pemohon</h2><p>Pemohon boleh melihat semua pergerakan jabatan secara read-only.</p></div></div>
+  <div class="vms-nav-grid">
+    <a class="vms-nav-tile" href="/pages/jadual-perjalanan.html"><strong>📅 Jadual Perjalanan</strong><span>Semua pergerakan, pemandu, kenderaan dan status Tunggu / Tidak Tunggu.</span></a>
+    <a class="vms-nav-tile" href="/pages/permohonan-saya.html"><strong>📝 Permohonan Saya</strong><span>Urus dan semak permohonan sendiri.</span></a>
+  </div>
+</div>
+
+    
+    <div class="vms-footer">Sistem Pengurusan Kenderaan Jabatan • VMS</div>
+  </main>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const ok = await window.VMSRoleGuard.initPageGuard();
+    if (!ok) return;
+    const profile = window.VMSSession.getProfile();
+    const el = document.querySelector('[data-user-name]');
+    if (el) el.textContent = profile?.full_name || 'User';
+    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+      await window.VMSSession.logout({ redirect: true });
+    });
+  } catch (e) {
+    console.error(e);
+  }
+});
+</script>
+</body>
+</html>
