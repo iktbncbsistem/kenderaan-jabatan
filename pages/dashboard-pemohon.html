@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dashboard Pemohon | VMS IKTBN Chembong</title>
   <link rel="stylesheet" href="/css/vms-role-dashboard.css" />
+  <link rel="stylesheet" href="/css/vms-pemohon-schedule.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="/js/config/supabase.js"></script>
   <script src="/js/auth/auth.js"></script>
@@ -19,6 +20,11 @@
         <span class="vms-brand-mark">🚘</span>
         <span class="vms-brand-copy"><strong>VMS</strong><span>IKTBN Chembong</span></span>
       </a>
+      <div class="vp-topnav" aria-label="Navigasi utama">
+        <a class="active" href="/pages/dashboard-pemohon.html">Dashboard</a>
+        <a href="/pages/jadual-perjalanan.html">Jadual Perjalanan</a>
+        <a href="/pages/applications.html">Permohonan</a>
+      </div>
       <div class="vms-top-actions">
         <span class="vms-role-pill">PEMOHON</span>
         <span class="vms-user-pill" data-user-name>—</span>
@@ -27,46 +33,76 @@
     </div>
   </header>
 
-  <main class="vms-main">
-    <section class="vms-hero">
-      <p class="vms-eyebrow">VMS • IKTBN CHEMBONG</p>
+  <main class="vp-main">
+    <section class="vp-hero">
+      <p class="vp-eyebrow">VMS • IKTBN CHEMBONG</p>
       <h1>Dashboard Pemohon</h1>
-      <p>Urus permohonan sendiri dan lihat semua pergerakan perjalanan jabatan secara read-only.</p>
+      <p>Ruang kerja pemohon untuk membuat permohonan dan memantau jadual perjalanan jabatan. Jadual global boleh dilihat oleh semua pemohon tanpa mendedahkan maklumat peribadi atau rekod dalaman.</p>
+      <div class="vp-hero-actions">
+        <a class="vp-btn vp-btn-primary" href="/pages/applications.html">＋ Buat Permohonan</a>
+        <a class="vp-btn vp-btn-secondary" href="/pages/jadual-perjalanan.html">▣ Lihat Jadual Perjalanan</a>
+      </div>
     </section>
 
-    
-<div class="vms-grid vms-grid-3">
-  <div class="vms-card vms-stat"><div class="label">Permohonan Saya</div><div class="value">—</div><div class="hint">Status terkini</div></div>
-  <div class="vms-card vms-stat"><div class="label">Perjalanan Jabatan</div><div class="value">Semua</div><div class="hint">Boleh dilihat</div></div>
-  <div class="vms-card vms-stat"><div class="label">Maklumat Sensitif</div><div class="value">Tersembunyi</div><div class="hint">PII & dokumen dalaman</div></div>
-</div>
-<div class="vms-card" style="margin-top:18px">
-  <div class="vms-panel-head"><div><h2>Menu Pemohon</h2><p>Pemohon boleh melihat semua pergerakan jabatan secara read-only.</p></div></div>
-  <div class="vms-nav-grid">
-    <a class="vms-nav-tile" href="/pages/jadual-perjalanan.html"><strong>📅 Jadual Perjalanan</strong><span>Semua pergerakan, pemandu, kenderaan dan status Tunggu / Tidak Tunggu.</span></a>
-    <a class="vms-nav-tile" href="/pages/permohonan-saya.html"><strong>📝 Permohonan Saya</strong><span>Urus dan semak permohonan sendiri.</span></a>
-  </div>
-</div>
+    <section class="vp-kpi-grid" aria-label="Ringkasan pemohon">
+      <div class="vp-kpi">
+        <div class="vp-kpi-top"><span class="vp-kpi-label">Permohonan Saya</span><span class="vp-kpi-icon">▣</span></div>
+        <div class="vp-kpi-value" id="myRequests">—</div>
+        <div class="vp-kpi-hint">Rekod permohonan mengikut akaun anda</div>
+      </div>
+      <div class="vp-kpi">
+        <div class="vp-kpi-top"><span class="vp-kpi-label">Perjalanan Hari Ini</span><span class="vp-kpi-icon">◷</span></div>
+        <div class="vp-kpi-value" id="todayTrips">—</div>
+        <div class="vp-kpi-hint">Semua perjalanan yang dijadualkan hari ini</div>
+      </div>
+      <div class="vp-kpi">
+        <div class="vp-kpi-top"><span class="vp-kpi-label">Akan Datang</span><span class="vp-kpi-icon">↗</span></div>
+        <div class="vp-kpi-value" id="upcomingTrips">—</div>
+        <div class="vp-kpi-hint">Dalam tempoh 14 hari akan datang</div>
+      </div>
+      <div class="vp-kpi">
+        <div class="vp-kpi-top"><span class="vp-kpi-label">Privasi</span><span class="vp-kpi-icon">✓</span></div>
+        <div class="vp-kpi-value">Aman</div>
+        <div class="vp-kpi-hint">PII & dokumen dalaman tidak dipaparkan</div>
+      </div>
+    </section>
 
-    
-    <div class="vms-footer">Sistem Pengurusan Kenderaan Jabatan • VMS</div>
+    <div class="vp-grid">
+      <section class="vp-card">
+        <div class="vp-card-head">
+          <div><h2>Jadual Perjalanan Terdekat</h2><p>Preview pergerakan jabatan yang boleh dilihat secara global.</p></div>
+          <a class="vp-btn vp-btn-light" href="/pages/jadual-perjalanan.html">Lihat Semua →</a>
+        </div>
+        <div class="vp-table-wrap">
+          <table class="vp-table">
+            <thead><tr><th>Tarikh</th><th>Masa</th><th>Lokasi</th><th>Kenderaan</th><th>Pemandu</th><th>Balik</th><th>Status</th></tr></thead>
+            <tbody id="previewBody"></tbody>
+          </table>
+        </div>
+        <div id="previewEmpty" class="vp-empty" hidden>Tiada perjalanan dijadualkan dalam tempoh terdekat.</div>
+      </section>
+
+      <section class="vp-card">
+        <div class="vp-card-head"><div><h2>Akses Pantas</h2><p>Modul yang paling kerap digunakan oleh pemohon.</p></div></div>
+        <div class="vp-card-body">
+          <div class="vp-actions-grid">
+            <a class="vp-action" href="/pages/applications.html"><span class="vp-action-icon">📝</span><span><strong>Buat Permohonan</strong><span>Isi permohonan penggunaan kenderaan.</span></span></a>
+            <a class="vp-action" href="/pages/jadual-perjalanan.html"><span class="vp-action-icon">📅</span><span><strong>Jadual Perjalanan</strong><span>Semak semua pergerakan jabatan.</span></span></a>
+            <a class="vp-action" href="/pages/applications.html"><span class="vp-action-icon">✓</span><span><strong>Permohonan Saya</strong><span>Semak rekod yang dihantar.</span></span></a>
+            <a class="vp-action" href="/pages/jadual-perjalanan.html"><span class="vp-action-icon">🚘</span><span><strong>Kenderaan & Pemandu</strong><span>Lihat maklumat operasi yang telah dijadualkan.</span></span></a>
+          </div>
+          <div class="vp-callout" style="margin-top:12px">
+            <div class="big">Maklumat sensitif sentiasa dilindungi</div>
+            <p>No. Kad Pengenalan, telefon peribadi, email peribadi, Surat Arahan Tugas dan maklumat dalaman kelulusan tidak dipaparkan pada jadual global.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="dashboardError" class="vp-error" hidden></div>
+    <div class="vp-note">Jadual perjalanan menggunakan sumber jadual awam yang telah ditapis di database. Pemohon tidak diberi akses kepada maklumat peribadi atau maklumat dalaman kelulusan.</div>
   </main>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', async () => {
-  try {
-    const ok = await window.VMSRoleGuard.initPageGuard();
-    if (!ok) return;
-    const profile = window.VMSSession.getProfile();
-    const el = document.querySelector('[data-user-name]');
-    if (el) el.textContent = profile?.full_name || 'User';
-    document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-      await window.VMSSession.logout({ redirect: true });
-    });
-  } catch (e) {
-    console.error(e);
-  }
-});
-</script>
+<script src="/js/modules/dashboard-pemohon.js"></script>
 </body>
 </html>
