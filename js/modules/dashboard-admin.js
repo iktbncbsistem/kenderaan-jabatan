@@ -116,51 +116,55 @@
   }
 
   async function init() {
-    try {
-      if (!window.VMSRoleGuard) {
-        console.error('VMSRoleGuard tidak tersedia.');
-        return;
-      }
-
-      const allowed =
-        await window.VMSRoleGuard.initPageGuard();
-
-      if (!allowed) return;
-
-      const profile =
-        window.VMSSession?.getProfile?.();
-
-      const nameEl =
-        document.querySelector('[data-user-name]');
-
-      if (nameEl) {
-        nameEl.textContent =
-          profile?.full_name || 'Administrator';
-      }
-
-      const logoutBtn =
-        document.getElementById('logoutBtn');
-
-      if (logoutBtn) {
-        logoutBtn.addEventListener(
-          'click',
-          async () => {
-            await window.VMSSession.logout({
-              redirect: true
-            });
-          }
-        );
-      }
-
-      await loadDashboard();
-
-    } catch (error) {
-      console.error(
-        'VMS Admin Dashboard error:',
-        error
-      );
+  try {
+    if (!window.VMSSession) {
+      console.error('VMSSession tidak tersedia.');
+      return;
     }
+
+    const session = await window.VMSSession.loadSession();
+
+    // Role Guard sudah menjaga akses halaman.
+    // Di sini kita cuma tunggu session/profile yang sah.
+    if (
+      !session?.user ||
+      !session?.session ||
+      !session?.profile ||
+      session.isActive !== true
+    ) {
+      return;
+    }
+
+    const profile = session.profile;
+
+    const nameEl =
+      document.querySelector('[data-user-name]');
+
+    if (nameEl) {
+      nameEl.textContent =
+        profile.full_name || 'Administrator';
+    }
+
+    const logoutBtn =
+      document.getElementById('logoutBtn');
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        await window.VMSSession.logout({
+          redirect: true
+        });
+      });
+    }
+
+    await loadDashboard();
+
+  } catch (error) {
+    console.error(
+      'VMS Admin Dashboard error:',
+      error
+    );
   }
+}
 
   document.addEventListener(
     'DOMContentLoaded',
