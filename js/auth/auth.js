@@ -1,8 +1,13 @@
 /*
  * VMS - Authentication Service
  * Path: /js/auth/auth.js
+ *
+ * Existing API is preserved. Added:
+ * - signUp (new self-registration -> pemohon)
+ * - signInWithGoogle
+ * - resetPassword
+ * - updatePassword
  */
-
 (() => {
   const supabase = window.supabaseClient;
 
@@ -22,6 +27,68 @@
       email: cleanEmail,
       password: cleanPassword
     });
+  }
+
+  async function signUp({ fullName, email, password, phone = '' } = {}) {
+    const cleanName = String(fullName || '').trim();
+    const cleanEmail = String(email || '').trim().toLowerCase();
+    const cleanPassword = String(password || '');
+    const cleanPhone = String(phone || '').trim();
+
+    if (!cleanName || !cleanEmail || !cleanPassword) {
+      return { data: null, error: new Error('Nama, email dan password diperlukan.') };
+    }
+
+    if (cleanPassword.length < 8) {
+      return { data: null, error: new Error('Password mesti mempunyai sekurang-kurangnya 8 aksara.') };
+    }
+
+    return await supabase.auth.signUp({
+      email: cleanEmail,
+      password: cleanPassword,
+      options: {
+        data: {
+          full_name: cleanName,
+          phone: cleanPhone,
+          role: 'pemohon'
+        }
+      }
+    });
+  }
+
+  async function signInWithGoogle() {
+    const redirectTo = `${window.location.origin}/index.html`;
+
+    return await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo
+      }
+    });
+  }
+
+  async function resetPassword(email) {
+    const cleanEmail = String(email || '').trim().toLowerCase();
+
+    if (!cleanEmail) {
+      return { data: null, error: new Error('Email diperlukan.') };
+    }
+
+    const redirectTo = `${window.location.origin}/pages/reset-password.html`;
+
+    return await supabase.auth.resetPasswordForEmail(cleanEmail, {
+      redirectTo
+    });
+  }
+
+  async function updatePassword(password) {
+    const cleanPassword = String(password || '');
+
+    if (cleanPassword.length < 8) {
+      return { data: null, error: new Error('Password mesti mempunyai sekurang-kurangnya 8 aksara.') };
+    }
+
+    return await supabase.auth.updateUser({ password: cleanPassword });
   }
 
   async function signOut() {
@@ -97,6 +164,10 @@
 
   window.VMSAuth = {
     signIn,
+    signUp,
+    signInWithGoogle,
+    resetPassword,
+    updatePassword,
     signOut,
     getSession,
     getUser,
