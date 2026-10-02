@@ -1,0 +1,31 @@
+
+.vms-nav{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:10px;
+  background:#fff;
+  border:1px solid #e1e7ef;
+  border-radius:14px;
+}
+.vms-nav a{
+  text-decoration:none;
+  padding:9px 12px;
+  border-radius:10px;
+  color:#16223a;
+  font-size:13px;
+  font-weight:800;
+}
+.vms-nav a:hover{
+  background:#f5f8fb;
+}
+@media(max-width:700px){
+  .vms-nav{
+    overflow-x:auto;
+    flex-wrap:nowrap;
+  }
+  .vms-nav a{
+    white-space:nowrap;
+  }
+}
