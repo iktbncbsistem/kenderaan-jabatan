@@ -1,15 +1,18 @@
+
 /*
  * VMS - Supabase Client
  * Path: /js/config/supabase.js
- *
- * The Supabase CDN script MUST be loaded before this file.
+ * Supabase project: VMS
  */
 
-const SUPABASE_URL = 'https://oonlogvseziuklrdbfwv.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_rp2hRDbVkFpNV_ERaZENAQ_50gRQk3_';
+const SUPABASE_URL = 'https://yzkvvttkmeezjbfbbfkd.supabase.co';
+
+const SUPABASE_ANON_KEY = 'sb_publishable_3ZKDUfe01srbU3tPmWvzsQ_7XXfr0MP';
 
 if (!window.supabase) {
-  throw new Error('Supabase JS library is not loaded. Load @supabase/supabase-js before supabase.js.');
+  throw new Error(
+    'Supabase JS library is not loaded. Load @supabase/supabase-js before supabase.js.'
+  );
 }
 
 window.supabaseClient = window.supabase.createClient(
