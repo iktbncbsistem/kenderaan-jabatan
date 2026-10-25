@@ -61,12 +61,8 @@
       state.error = context.error || null;
       state.initialized = true;
 
-      if (state.user && state.profile?.is_active === true) {
-        // Best-effort last-seen update. Do not block login/page loading if it fails.
-        window.VMSAuth.updateLastSeen().catch((error) => {
-          console.warn('last_seen_at update failed:', error);
-        });
-      }
+      // Kemas kini last_seen_at dinyahaktifkan sementara.
+// Tidak membuat permintaan UPDATE kepada jadual profiles.
     } catch (error) {
       state.session = null;
       state.user = null;
