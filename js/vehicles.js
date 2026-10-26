@@ -37,10 +37,16 @@
     window.setTimeout(() => { el.classList.remove('show'); delete el.dataset.error; }, 3200);
   }
   function setMessage(message, show = true) {
-    const el = $('pageMessage');
-    el.textContent = message;
-    el.hidden = !show;
+  const el = $('pageMessage');
+
+  if (!el) {
+    console.error('Elemen #pageMessage tidak ditemui:', message);
+    return;
   }
+
+  el.textContent = message;
+  el.hidden = !show;
+}
   function typeLabel(v) { return labels.vehicle_type[v] || v || '—'; }
   function fuelLabel(v) { return labels.fuel_type[v] || v || '—'; }
   function statusLabel(v) { return labels.vehicle_status[v] || v || '—'; }
